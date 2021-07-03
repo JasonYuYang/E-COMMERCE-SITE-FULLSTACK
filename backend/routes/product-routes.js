@@ -7,21 +7,22 @@ const router = express.Router();
 router.get('/products', productController.getProducts);
 router.get('/product/:id', productController.getProductById);
 
-router.use(checkAuth.isAuthenticatedUser);
-
 router.post(
   '/admin/product/new',
-  checkAuth.authorizeRoles,
+  checkAuth.isAuthenticatedUser,
+  checkAuth.authorizeRoles('admin'),
   productController.newProduct
 );
 router.put(
   '/admin/product/:id',
-  checkAuth.authorizeRoles,
+  checkAuth.isAuthenticatedUser,
+  checkAuth.authorizeRoles('admin'),
   productController.updateProduct
 );
 router.delete(
   '/admin/product/:id',
-  checkAuth.authorizeRoles,
+  checkAuth.isAuthenticatedUser,
+  checkAuth.authorizeRoles('admin'),
   productController.deleteProduct
 );
 
