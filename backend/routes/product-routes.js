@@ -26,4 +26,20 @@ router.delete(
   productController.deleteProduct
 );
 
+router.put(
+  '/review',
+  checkAuth.isAuthenticatedUser,
+  productController.createProductReview
+);
+router.get(
+  '/reviews',
+  checkAuth.isAuthenticatedUser,
+  productController.getProductReviews
+);
+router.delete(
+  '/reviews',
+  checkAuth.isAuthenticatedUser,
+  productController.deleteReview
+);
+
 module.exports = router;

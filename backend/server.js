@@ -1,7 +1,5 @@
-const app = require('./app');
 const dotenv = require('dotenv');
 const connectDatabase = require('./config/database');
-const { connect } = require('mongoose');
 
 // Handle Uncaught exceptions
 process.on('uncaughtException', (err) => {
@@ -9,6 +7,8 @@ process.on('uncaughtException', (err) => {
   console.log('Shutting down due to uncaught exception');
   process.exit(1);
 });
+
+const app = require('./app');
 
 // Setting up config file
 dotenv.config({ path: 'config/config.env' });

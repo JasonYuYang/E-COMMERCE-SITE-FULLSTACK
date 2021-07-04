@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const { promisify } = require('util');
 
 const jwt = require('jsonwebtoken');
 const ErrorHandler = require('../utils/errorHandler');
@@ -12,9 +13,27 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHandler('Login first to access this resource.', 401));
   }
 
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  req.user = await User.findById(decoded.id);
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  const user = await User.findById(decoded.id);
 
+  //Check if user still exist
+  if (!user) {
+    return next(
+      new ErrorHandler(`User belonging to this token no longer exist`, 401)
+    );
+  }
+
+  //Check if user change password after token was issued
+  if (user.changePasswordAfter(decoded.iat)) {
+    return next(
+      new ErrorHandler(
+        `User recently changed password please login again !!`,
+        401
+      )
+    );
+  }
+  //GRANY ACCESS TO PROTECTED ROUTES
+  req.user = user;
   next();
 });
 

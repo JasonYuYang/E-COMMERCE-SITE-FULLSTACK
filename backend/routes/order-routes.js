@@ -14,5 +14,30 @@ router.get(
   checkAuth.isAuthenticatedUser,
   orderController.getSingleOrder
 );
+router.get(
+  '/orders/me',
+  checkAuth.isAuthenticatedUser,
+  orderController.myOrders
+);
 
+//ADMIN
+
+router.get(
+  'admin/orders',
+  checkAuth.isAuthenticatedUser,
+  checkAuth.authorizeRoles('admin'),
+  orderController.allOrders
+);
+router.put(
+  'admin/order/:id',
+  checkAuth.isAuthenticatedUser,
+  checkAuth.authorizeRoles('admin'),
+  orderController.updateOrder
+);
+router.delete(
+  'admin/order/:id',
+  checkAuth.isAuthenticatedUser,
+  checkAuth.authorizeRoles('admin'),
+  orderController.deleteOrder
+);
 module.exports = router;

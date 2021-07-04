@@ -99,6 +99,43 @@ const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   }
 });
 
+// Reset Password   =>  /api/v1/password/reset/:token
+const resetPassword = catchAsyncErrors(async (req, res, next) => {
+  // Hash URL token
+  const resetPasswordToken = crypto
+    .createHash('sha256')
+    .update(req.params.token)
+    .digest('hex');
+
+  const user = await User.findOne({
+    resetPasswordToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return next(
+      new ErrorHandler(
+        'Password reset token is invalid or has been expired',
+        400
+      )
+    );
+  }
+
+  if (req.body.password !== req.body.confirmPassword) {
+    return next(new ErrorHandler('Password does not match', 400));
+  }
+
+  // Setup new password
+  user.password = req.body.password;
+
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  sendToken(user, 200, res);
+});
+
 // Get currently logged in user details   =>   /api/v1/me
 const getUserProfile = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id);
@@ -207,7 +244,10 @@ const deleteUserByAdmin = catchAsyncErrors(async (req, res, next) => {
 exports.userSignUp = userSignUp;
 exports.userLogin = userLogin;
 exports.userLogout = userLogout;
+
 exports.forgotPassword = forgotPassword;
+exports.resetPassword = resetPassword;
+
 exports.getUserProfile = getUserProfile;
 exports.updatePassword = updatePassword;
 exports.updateUserProfile = updateUserProfile;
