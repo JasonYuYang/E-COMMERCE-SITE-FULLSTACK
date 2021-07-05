@@ -11,6 +11,7 @@ const getProducts = catchAsyncErrors(async (req, res, next) => {
   const apiFeatures = new APIFeatures(Product.find(), req.query)
     .search()
     .filter()
+    .sort()
     .pagination(resPerPage);
 
   let products = await apiFeatures.query;

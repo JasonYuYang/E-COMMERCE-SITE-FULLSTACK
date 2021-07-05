@@ -22,7 +22,7 @@ class APIFeatures {
     const queryCopy = { ...this.queryStr };
 
     // Removing fields from the query
-    const removeFields = ['keyword', 'limit', 'page'];
+    const removeFields = ['keyword', 'limit', 'page', 'sort'];
     removeFields.forEach((el) => delete queryCopy[el]);
 
     // Advance filter for price, ratings etc
@@ -30,6 +30,16 @@ class APIFeatures {
     queryDB = queryDB.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
 
     this.query = this.query.find(JSON.parse(queryDB));
+    return this;
+  }
+  sort() {
+    if (this.queryStr.sort) {
+      //for multiple sorting condition
+      const sortQuery = this.queryStr.sort.split(',').join(' ');
+      this.query = this.query.sort(sortQuery);
+    } else {
+      this.query = this.query.sort('-createdAt');
+    }
     return this;
   }
 
