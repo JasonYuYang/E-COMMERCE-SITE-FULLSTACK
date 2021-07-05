@@ -101,12 +101,13 @@ const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 
 // Reset Password   =>  /api/v1/password/reset/:token
 const resetPassword = catchAsyncErrors(async (req, res, next) => {
-  // Hash URL token
+  // Hash token in URL
   const resetPasswordToken = crypto
     .createHash('sha256')
     .update(req.params.token)
     .digest('hex');
 
+  //Get user with resetPassword token,and check token is expired or not
   const user = await User.findOne({
     resetPasswordToken,
     resetPasswordExpire: { $gt: Date.now() },
@@ -156,6 +157,7 @@ const updatePassword = catchAsyncErrors(async (req, res, next) => {
   }
 
   user.password = req.body.password;
+  //
   await user.save();
 
   sendToken(user, 200, res);

@@ -48,10 +48,20 @@ const userSchema = new mongoose.Schema({
 //hash the password before saving user to database
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
-    next();
+    return next();
   }
 
   this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+//set reset time before saving to database for comparing with token
+userSchmea.pre('save', async function (next) {
+  if (!this.isModified('password') || this.isNew) {
+    return next();
+  }
+  this.resetPasswordAt = Date.now() - 1000;
+  next();
 });
 
 // Compare user password
