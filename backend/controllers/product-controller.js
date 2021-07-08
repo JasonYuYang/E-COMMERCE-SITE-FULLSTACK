@@ -11,15 +11,20 @@ const getProducts = catchAsyncErrors(async (req, res, next) => {
   const apiFeatures = new APIFeatures(Product.find(), req.query)
     .search()
     .filter()
-    .sort()
-    .pagination(resPerPage);
+    .sort();
 
   let products = await apiFeatures.query;
+  let filteredProductsCount = products.length;
+
+  apiFeatures.pagination(resPerPage);
+  products = await apiFeatures.query;
 
   res.status(200).json({
     success: true,
     count: products.length,
     productsCount,
+    filteredProductsCount,
+    resPerPage,
     products: products.map((product) => {
       return product.toObject({ getters: true });
     }),

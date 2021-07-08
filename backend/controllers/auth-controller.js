@@ -1,11 +1,21 @@
 const User = require('../models/user');
+
 const sendEmail = require('../utils/sendEmail');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const sendToken = require('../utils/jwtToken');
 
+const crypto = require('crypto');
+const cloudinary = require('cloudinary');
+
 // Register a user   => /api/v1/signup
 const userSignUp = catchAsyncErrors(async (req, res, next) => {
+  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: 'avatars',
+    width: 150,
+    crop: 'scale',
+  });
+
   const { name, email, password } = req.body;
 
   const user = await User.create({
@@ -13,8 +23,8 @@ const userSignUp = catchAsyncErrors(async (req, res, next) => {
     email,
     password,
     avatar: {
-      public_id: '123',
-      url: '4566',
+      public_id: result.public_id,
+      url: result.secure_url,
     },
   });
 
@@ -111,6 +121,7 @@ const resetPassword = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findOne({
     resetPasswordToken,
     resetPasswordExpire: { $gt: Date.now() },
+    //$gt: Date.now() means greater(latter) than right now
   });
 
   if (!user) {
@@ -169,7 +180,25 @@ const updateUserProfile = catchAsyncErrors(async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
   };
-  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+  // Update avatar
+  if (req.body.avatar !== '') {
+    const user = await User.findById(req.user.id);
+
+    const image_id = user.avatar.public_id;
+    await cloudinary.v2.uploader.destroy(image_id);
+
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: 'avatars',
+      width: 150,
+      crop: 'scale',
+    });
+
+    newUserData.avatar = {
+      public_id: result.public_id,
+      url: result.secure_url,
+    };
+  }
+  user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
