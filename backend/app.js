@@ -7,13 +7,18 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const cookieParser = require('cookie-parser');
 const fileUpload = require('express-fileupload');
+const dotenv = require('dotenv');
 
 const errorMiddleware = require('./middleware/error');
 const productRoutes = require('../backend/routes/product-routes');
 const authRoutes = require('../backend/routes/auth-routes');
 const orderRoutes = require('../backend/routes/order-routes');
+const paymentRoutes = require('../backend/routes/payment-routes');
 
 const app = express();
+
+// Setting up config file
+dotenv.config({ path: 'config/config.env' });
 
 //Set security HTTP header
 app.use(helmet());
@@ -39,6 +44,7 @@ app.use(mongoSanitize());
 app.use(xss());
 
 app.use('/api/v1', authRoutes);
+app.use('/api/v1', paymentRoutes);
 app.use('/api/v1', productRoutes);
 app.use('/api/v1', orderRoutes);
 

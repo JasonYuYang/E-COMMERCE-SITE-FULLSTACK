@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
     "cloudinary": "^1.26.2",
+    "countries-list": "^2.6.1",
     "rc-slider": "^9.7.2",
     "react": "^17.0.2",
     "react-alert": "^7.0.3",
