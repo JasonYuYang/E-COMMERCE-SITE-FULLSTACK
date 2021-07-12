@@ -8,6 +8,7 @@ const productSlice = createSlice({
     productDetails: {},
   },
   reducers: {
+    //AdminProduct & AllProduct request
     allProductsRequest(state) {
       state.loading = true;
       state.products = [];
@@ -23,6 +24,7 @@ const productSlice = createSlice({
       state.loading = false;
       state.products = action.payload;
     },
+    //AdminProduct & AllProduct fail
     allProductsFail(state, action) {
       state.loading = false;
       state.error = action.payload;
@@ -50,6 +52,26 @@ const productSlice = createSlice({
     },
     productDetailsFail(state, action) {
       state.error = action.payload;
+    },
+    updateDeleteProductRequest(state) {
+      state.loading = true;
+    },
+    updateProductSuccess(state, action) {
+      state.loading = false;
+      state.isUpdated = action.payload;
+    },
+    deleteProductSuccess(state, action) {
+      state.loading = false;
+      state.isDeleted = action.payload;
+    },
+    updateDeleteProductFail(state, action) {
+      state.error = action.payload;
+    },
+    updateProductReset(state) {
+      state.isUpdated = false;
+    },
+    deleteProductReset(state) {
+      state.isDeleted = false;
     },
 
     clearErrors(state) {

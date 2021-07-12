@@ -13,7 +13,7 @@ import {
   clearErrors,
 } from '../../actions/productActions';
 import { addItemToCart } from '../../store/actions/cart-actions';
-import { NEW_REVIEW_RESET } from '../../constants/productConstants';
+import { reviewActions } from '../../store/review-slice';
 
 const ProductDetails = ({ match }) => {
   const [quantity, setQuantity] = useState(1);
@@ -27,9 +27,7 @@ const ProductDetails = ({ match }) => {
     (state) => state.product.productDetails
   );
   const { user } = useSelector((state) => state.auth);
-  const { error: reviewError, success } = useSelector(
-    (state) => state.newReview
-  );
+  const { error: reviewError, success } = useSelector((state) => state.review);
 
   useEffect(() => {
     dispatch(getProductDetails(match.params.id));
@@ -46,7 +44,7 @@ const ProductDetails = ({ match }) => {
 
     if (success) {
       alert.success('Reivew posted successfully');
-      dispatch({ type: NEW_REVIEW_RESET });
+      dispatch(reviewActions.newReviewReset());
     }
   }, [dispatch, alert, error, reviewError, match.params.id, success]);
 

@@ -3,6 +3,8 @@ import productSlice from './products-slice';
 import authSlice from './auth-slice';
 import userSlice from './user-slice';
 import cartSlice, { cartActions } from './cart-slice';
+import orderSlice from './order-slice';
+import reviewSlice from './review-slice';
 
 const getCartItemsfromlocalStorage = () => {
   const initialState = {
@@ -22,6 +24,8 @@ const store = configureStore({
     auth: authSlice.reducer,
     user: userSlice.reducer,
     cart: cartSlice.reducer,
+    order: orderSlice.reducer,
+    review: reviewSlice.reducer,
   },
 });
 
