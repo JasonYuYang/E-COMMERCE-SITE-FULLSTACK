@@ -31,11 +31,12 @@ module.exports = (err, req, res, next) => {
       error = new ErrorHandler(message, 400);
     }
 
-    // // Handling Mongoose duplicate key errors
-    // if (err.code === 11000) {
-    //   const message = `Duplicate ${Object.keys(err.keyValue)} entered`;
-    //   error = new ErrorHandler(message, 400);
-    // }
+    // Handling Mongoose duplicate key errors
+    if (err.code === 11000) {
+      const value = err.errmsg.match(/(["'])(\\?.)*?\1/)[0];
+      const message = `Duplicate field value: ${value}. Please use another value!`;
+      error = new ErrorHandler(message, 400);
+    }
 
     // Handling wrong JWT error
     if (err.name === 'JsonWebTokenError') {

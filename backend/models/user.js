@@ -55,12 +55,13 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-//set reset time before saving to database for comparing with token
-userSchmea.pre('save', async function (next) {
+// rest timestamp of resetPasswordAt  before saving to database for comparing with token
+userSchema.pre('save', async function (next) {
   if (!this.isModified('password') || this.isNew) {
     return next();
   }
   this.resetPasswordAt = Date.now() - 1000;
+  //
   next();
 });
 
@@ -79,10 +80,7 @@ userSchema.methods.getJwtToken = function () {
 // Check if user try to use old token after change password
 userSchema.methods.changePasswordAfter = function (JWTtimestamp) {
   if (this.resetPasswordAt) {
-    const changedTimestamp = parseInt(
-      this.resetPasswordAt.getTime() / 1000,
-      10
-    );
+    const changedTimestamp = parseInt(this.resetPasswordAt.getTime() / 1000, 10);
     return JWTtimestamp < changedTimestamp;
   }
   //False means not changed
@@ -95,10 +93,7 @@ userSchema.methods.getResetPasswordToken = function () {
   const resetToken = crypto.randomBytes(32).toString('hex');
 
   // Hash and set to resetPasswordToken
-  this.resetPasswordToken = crypto
-    .createHash('sha256')
-    .update(resetToken)
-    .digest('hex');
+  this.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
   // Set token expire time
   this.resetPasswordExpire = Date.now() + 30 * 60 * 1000;
 

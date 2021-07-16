@@ -5,6 +5,7 @@ const checkAuth = require('../middleware/checkAuth');
 const router = express.Router();
 
 router.get('/products', productController.getProducts);
+router.get('/admin/products', productController.getAdminProducts);
 router.get('/product/:id', productController.getProductById);
 
 router.post(

@@ -83,9 +83,7 @@ const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   // Create reset password url
-  const resetUrl = `${req.protocol}://${req.get(
-    'host'
-  )}/password/reset/${resetToken}`;
+  const resetUrl = `${req.protocol}://${req.get('host')}/password/reset/${resetToken}`;
 
   const message = `Your password reset token is as follow:\n\n${resetUrl}\n\nIf you have not requested this email, then ignore it.`;
 
@@ -112,10 +110,7 @@ const forgotPassword = catchAsyncErrors(async (req, res, next) => {
 // Reset Password   =>  /api/v1/password/reset/:token
 const resetPassword = catchAsyncErrors(async (req, res, next) => {
   // Hash token in URL
-  const resetPasswordToken = crypto
-    .createHash('sha256')
-    .update(req.params.token)
-    .digest('hex');
+  const resetPasswordToken = crypto.createHash('sha256').update(req.params.token).digest('hex');
 
   //Get user with resetPassword token,and check token is expired or not
   const user = await User.findOne({
@@ -125,12 +120,7 @@ const resetPassword = catchAsyncErrors(async (req, res, next) => {
   });
 
   if (!user) {
-    return next(
-      new ErrorHandler(
-        'Password reset token is invalid or has been expired',
-        400
-      )
-    );
+    return next(new ErrorHandler('Password reset token is invalid or has been expired', 400));
   }
 
   if (req.body.password !== req.body.confirmPassword) {
@@ -139,7 +129,6 @@ const resetPassword = catchAsyncErrors(async (req, res, next) => {
 
   // Setup new password
   user.password = req.body.password;
-
   user.resetPasswordToken = undefined;
   user.resetPasswordExpire = undefined;
 
@@ -168,7 +157,6 @@ const updatePassword = catchAsyncErrors(async (req, res, next) => {
   }
 
   user.password = req.body.password;
-  //
   await user.save();
 
   sendToken(user, 200, res);
@@ -225,9 +213,7 @@ const getUserDetailsByAdmin = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
   if (!user) {
-    return next(
-      new ErrorHandler(`User does not found with id: ${req.params.id}`)
-    );
+    return next(new ErrorHandler(`User does not found with id: ${req.params.id}`));
   }
 
   res.status(200).json({
@@ -260,11 +246,12 @@ const deleteUserByAdmin = catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
   if (!user) {
-    return next(
-      new ErrorHandler(`User does not found with id: ${req.params.id}`)
-    );
+    return next(new ErrorHandler(`User does not found with id: ${req.params.id}`));
   }
 
+  // Remove avatar from cloudinary
+  const image_id = user.avatar.public_id;
+  await cloudinary.v2.uploader.destroy(image_id);
   await user.remove();
 
   res.status(200).json({

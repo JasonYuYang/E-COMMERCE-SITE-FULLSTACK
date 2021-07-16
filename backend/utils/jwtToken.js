@@ -5,11 +5,13 @@ const sendToken = (user, statusCode, res) => {
 
   // Options for cookie
   const options = {
-    expires: new Date(
-      Date.now() + process.env.COOKIE_EXPIRES_TIME * 24 * 60 * 60 * 1000
-    ),
+    expires: new Date(Date.now() + process.env.COOKIE_EXPIRES_TIME * 24 * 60 * 60 * 1000),
+    // secure: true,
     httpOnly: true,
   };
+
+  //remove password from output
+  user.password = undefined;
 
   res.cookie('token', token, options);
   res.status(statusCode).json({

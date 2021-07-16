@@ -7,9 +7,8 @@ const products = require('../data/products.json');
 // Setting dotenv file
 dotenv.config({ path: '../config/config.env' });
 
-connectDatabase();
-
 const seedProducts = async () => {
+  await connectDatabase();
   try {
     await Product.deleteMany();
     console.log('Products are deleted');

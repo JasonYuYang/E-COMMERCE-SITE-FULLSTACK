@@ -18,21 +18,14 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 
   //Check if user still exist
   if (!user) {
-    return next(
-      new ErrorHandler(`User belonging to this token no longer exist`, 401)
-    );
+    return next(new ErrorHandler(`User belonging to this token no longer exist`, 401));
   }
 
   //Check if user change password after token was issued
   if (user.changePasswordAfter(decoded.iat)) {
-    return next(
-      new ErrorHandler(
-        `User recently changed password please login again !!`,
-        401
-      )
-    );
+    return next(new ErrorHandler(`User recently changed password please login again !!`, 401));
   }
-  //GRANY ACCESS TO PROTECTED ROUTES
+  //GRANT ACCESS TO PROTECTED ROUTES
   req.user = user;
   next();
 });
@@ -41,12 +34,7 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
 exports.authorizeRoles = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return next(
-        new ErrorHandler(
-          `Role (${req.user.role}) is not allowed to acccess this resource`,
-          403
-        )
-      );
+      return next(new ErrorHandler(`Role (${req.user.role}) is not allowed to acccess this resource`, 403));
     }
     next();
   };
