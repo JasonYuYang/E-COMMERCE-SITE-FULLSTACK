@@ -1,14 +1,16 @@
+const path = require('path');
 const Product = require('../models/product');
 const dotenv = require('dotenv');
 const connectDatabase = require('../config/database');
 
 const products = require('../data/products.json');
 
-// Setting dotenv file
-dotenv.config({ path: '../config/config.env' });
+// Setting dotenv file,must be absolute path
+dotenv.config({ path: path.join(__dirname, '../config/config.env') });
+
+connectDatabase();
 
 const seedProducts = async () => {
-  await connectDatabase();
   try {
     await Product.deleteMany();
     console.log('Products are deleted');

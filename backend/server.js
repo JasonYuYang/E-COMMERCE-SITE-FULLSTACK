@@ -1,3 +1,4 @@
+const path = require('path');
 const dotenv = require('dotenv');
 const cloudinary = require('cloudinary');
 
@@ -11,7 +12,7 @@ process.on('uncaughtException', (err) => {
 });
 
 // Setting up config file
-dotenv.config({ path: 'config/config.env' });
+dotenv.config({ path: path.join(__dirname, './config/config.env') });
 
 // Setting up cloudinary configuration
 cloudinary.config({
