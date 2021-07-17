@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { orderActions } from '../order-slice';
+import { orderActions } from '../slices/order-slice';
 
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
@@ -69,11 +69,7 @@ export const updateOrder = (id, orderData) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.put(
-      `/api/v1/admin/order/${id}`,
-      orderData,
-      config
-    );
+    const { data } = await axios.put(`/api/v1/admin/order/${id}`, orderData, config);
 
     dispatch(orderActions.updateOrderSuccess(data.success));
   } catch (error) {

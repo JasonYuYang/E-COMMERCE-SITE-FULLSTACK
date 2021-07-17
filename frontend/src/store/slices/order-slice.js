@@ -18,10 +18,12 @@ const orderSlice = createSlice({
       state.loading = true;
     },
     updateOrderSuccess(state, action) {
-      (state.loading = false), (state.isUpdated = action.payload);
+      state.loading = false;
+      state.isUpdated = action.payload;
     },
     deleteOrderSuccess(state, action) {
-      (state.loading = false), (state.isDeleted = action.payload);
+      state.loading = false;
+      state.isDeleted = action.payload;
     },
     createOrderSuccess(state, action) {
       state.loading = false;

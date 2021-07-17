@@ -1,21 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
-import productSlice from './products-slice';
-import authSlice from './auth-slice';
-import userSlice from './user-slice';
-import cartSlice, { cartActions } from './cart-slice';
-import orderSlice from './order-slice';
-import reviewSlice from './review-slice';
+import productSlice from './slices/products-slice';
+import authSlice from './slices/auth-slice';
+import userSlice from './slices/user-slice';
+import cartSlice, { cartActions } from './slices/cart-slice';
+import orderSlice from './slices/order-slice';
+import reviewSlice from './slices/review-slice';
 
 const getCartItemsfromlocalStorage = () => {
   const initialState = {
-    cartItems: localStorage.getItem('cartItems')
-      ? JSON.parse(localStorage.getItem('cartItems'))
-      : [],
-    shippingInfo: localStorage.getItem('shippingInfo')
-      ? JSON.parse(localStorage.getItem('shippingInfo'))
-      : {},
+    cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [],
+    shippingInfo: localStorage.getItem('shippingInfo') ? JSON.parse(localStorage.getItem('shippingInfo')) : {},
   };
-  dispatch(cartActions.hydrate(initialState));
+  store.dispatch(cartActions.hydrate(initialState));
 };
 
 const store = configureStore({

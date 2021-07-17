@@ -2,8 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 
-import store from './store/index';
 import { Provider } from 'react-redux';
+import store from './store/index';
 
 import { positions, transitions, Provider as AlertProvider } from 'react-alert';
 import AlertTemplate from 'react-alert-template-basic';
@@ -20,5 +20,6 @@ ReactDOM.render(
       <App />
     </AlertProvider>
   </Provider>,
+
   document.getElementById('root')
 );

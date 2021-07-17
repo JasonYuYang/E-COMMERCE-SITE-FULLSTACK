@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { authActions } from '../auth-slice';
-import { userActions } from '../user-slice';
+import { authActions } from '../slices/auth-slice';
+import { userActions } from '../slices/user-slice';
 
 // Login
 export const login = (email, password) => async (dispatch) => {
@@ -13,11 +13,7 @@ export const login = (email, password) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post(
-      '/api/v1/login',
-      { email, password },
-      config
-    );
+    const { data } = await axios.post('/api/v1/login', { email, password }, config);
 
     dispatch(authActions.loadUserSuccess(data.user));
   } catch (error) {
@@ -96,11 +92,7 @@ export const updatePassword = (passwords) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.put(
-      '/api/v1/password/update',
-      passwords,
-      config
-    );
+    const { data } = await axios.put('/api/v1/password/update', passwords, config);
 
     dispatch(userActions.updateUserDataSuccess(data.success));
   } catch (error) {
@@ -138,11 +130,7 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.put(
-      `/api/v1/password/reset/${token}`,
-      passwords,
-      config
-    );
+    const { data } = await axios.put(`/api/v1/password/reset/${token}`, passwords, config);
 
     dispatch(userActions.resetPasswordSuccess(data.success));
   } catch (error) {

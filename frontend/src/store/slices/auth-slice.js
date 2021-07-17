@@ -29,7 +29,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       state.user = null;
     },
-    logoutFail(action) {
+    logoutFail(state, action) {
       state.error = action.payload;
     },
     clearErrors(state) {
