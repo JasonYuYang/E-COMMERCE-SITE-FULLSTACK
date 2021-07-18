@@ -14,8 +14,8 @@ const ProductDetails = ({ match }) => {
   const alert = useAlert();
 
   const { loading, error, productDetails } = useSelector((state) => state.product);
-  const { user } = useSelector((state) => state.auth);
-  const { error: reviewError, success } = useSelector((state) => state.newReview);
+  // const { user } = useSelector((state) => state.auth);
+  // const { error: reviewError, success } = useSelector((state) => state.newReview);
 
   useEffect(() => {
     dispatch(getProductDetails(match.params.id));
@@ -25,16 +25,16 @@ const ProductDetails = ({ match }) => {
       dispatch(clearErrors());
     }
 
-    if (reviewError) {
-      alert.error(reviewError);
-      dispatch(clearErrors());
-    }
+    // if (reviewError) {
+    //   alert.error(reviewError);
+    //   dispatch(clearErrors());
+    // }
 
-    if (success) {
-      alert.success('Reivew posted successfully');
-      dispatch(reviewActions.newReviewReset());
-    }
-  }, [dispatch, alert, error, reviewError, match.params.id, success]);
+    // if (success) {
+    //   alert.success('Reivew posted successfully');
+    //   dispatch(reviewActions.newReviewReset());
+    // }
+  }, [dispatch, alert, error, match.params.id]);
 
   return (
     <Fragment>
@@ -62,7 +62,10 @@ const ProductDetails = ({ match }) => {
               <hr />
 
               <div className="rating-outer">
-                <div className="rating-inner" style={{ width: `${(productDetails.ratings / 5) * 100}%` }}></div>
+                <div
+                  className="rating-inner"
+                  style={{ width: `${(productDetails.ratings / 5) * 100}%` }}
+                ></div>
               </div>
               <span id="no_of_reviews">({productDetails.numOfReviews} Reviews)</span>
 
@@ -84,7 +87,10 @@ const ProductDetails = ({ match }) => {
 
               <p>
                 Status:
-                <span id="stock_status" className={productDetails.stock > 0 ? 'greenColor' : 'redColor'}>
+                <span
+                  id="stock_status"
+                  className={productDetails.stock > 0 ? 'greenColor' : 'redColor'}
+                >
                   {productDetails.stock > 0 ? 'In Stock' : 'Out of Stock'}
                 </span>
               </p>
@@ -124,7 +130,12 @@ const ProductDetails = ({ match }) => {
                           <h5 className="modal-title" id="ratingModalLabel">
                             Submit Review
                           </h5>
-                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                          <button
+                            type="button"
+                            className="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                          >
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
@@ -147,7 +158,11 @@ const ProductDetails = ({ match }) => {
                             </li>
                           </ul>
 
-                          <textarea name="review" id="review" className="form-control mt-3"></textarea>
+                          <textarea
+                            name="review"
+                            id="review"
+                            className="form-control mt-3"
+                          ></textarea>
 
                           <button
                             className="btn my-3 float-right review-btn px-4 text-white"
@@ -164,7 +179,6 @@ const ProductDetails = ({ match }) => {
               </div>
             </div>
           </div>
-          );
         </Fragment>
       )}
     </Fragment>

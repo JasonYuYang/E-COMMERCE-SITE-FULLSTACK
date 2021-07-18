@@ -2,15 +2,16 @@ import axios from 'axios';
 import { productActions } from '../slices/products-slice';
 import { reviewActions } from '../slices/review-slice';
 
-export const getProducts = (currentPage = 1) => {
+export const getProducts = (keyword = '', currentPage = 1, price, category, rating) => {
   return async (dispatch) => {
     try {
       dispatch(productActions.allProductsRequest());
+      let link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&ratings[gte]=${rating}`;
 
-      let link = `/api/v1/products?page=${currentPage}`;
-
+      if (category) {
+        link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&ratings[gte]=${rating}`;
+      }
       const { data } = await axios.get(link);
-      console.log(data);
 
       dispatch(productActions.allProductsSuccess(data));
     } catch (error) {
@@ -127,7 +128,9 @@ export const deleteReview = (id, productId) => async (dispatch) => {
   try {
     dispatch(reviewActions.deleteReviewRequest());
 
-    const { data } = await axios.delete(`/api/v1/reviews?id=${id}&productId=${productId}`);
+    const { data } = await axios.delete(
+      `/api/v1/reviews?id=${id}&productId=${productId}`
+    );
 
     dispatch(reviewActions.deleteReviewSuccess(data.success));
   } catch (error) {

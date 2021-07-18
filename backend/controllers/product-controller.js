@@ -9,10 +9,7 @@ const getProducts = catchAsyncErrors(async (req, res, next) => {
   const resPerPage = 4;
   const productsCount = await Product.countDocuments();
 
-  const apiFeatures = new APIFeatures(Product.find(), req.query)
-    .search()
-    .filter()
-    .sort();
+  const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter().sort();
 
   let products = await apiFeatures.query;
   let filteredProductsCount = products.length;
@@ -192,8 +189,7 @@ const createProductReview = catchAsyncErrors(async (req, res, next) => {
   }
 
   product.ratings =
-    product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-    product.reviews.length;
+    product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
 
   await product.save({ validateBeforeSave: false });
 
@@ -225,8 +221,7 @@ const deleteReview = catchAsyncErrors(async (req, res, next) => {
   const numOfReviews = reviews.length;
 
   const ratings =
-    product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-    reviews.length;
+    product.reviews.reduce((acc, item) => item.rating + acc, 0) / reviews.length;
 
   await Product.findByIdAndUpdate(
     req.query.productId,
