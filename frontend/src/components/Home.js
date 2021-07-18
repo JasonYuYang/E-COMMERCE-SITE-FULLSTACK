@@ -97,7 +97,7 @@ const Home = ({ match }) => {
                       <div className="mt-5">
                         <h4 className="mb-3">Categories</h4>
 
-                        <ul className="pl-0">
+                        <ul className="pl-0 card-title">
                           {categories.map((category) => (
                             <li
                               style={{
@@ -152,7 +152,9 @@ const Home = ({ match }) => {
                   </div>
                 </Fragment>
               ) : (
-                products.map((product) => <Product key={product._id} product={product} col={3} />)
+                products.map((product) => (
+                  <Product key={product._id} product={product} col={3} />
+                ))
               )}
             </div>
           </section>

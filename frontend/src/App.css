@@ -83,6 +83,10 @@ nav {
   color: #fa9c23;
   text-decoration: none;
 }
+.card-title li:hover {
+  color: #fa9c23;
+  text-decoration: none;
+}
 
 .card-body {
   padding-left: 0;
