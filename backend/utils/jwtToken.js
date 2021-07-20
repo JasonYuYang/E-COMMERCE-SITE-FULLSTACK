@@ -10,6 +10,9 @@ const sendToken = (user, statusCode, res) => {
     httpOnly: true,
   };
 
+  if (process.env.NODE_ENV === 'production') {
+    options.secure = true;
+  }
   //remove password from output
   user.password = undefined;
 

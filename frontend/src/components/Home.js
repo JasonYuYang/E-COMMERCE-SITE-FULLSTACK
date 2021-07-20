@@ -37,6 +37,7 @@ const Home = ({ match }) => {
 
   const { loading, products, error, productsCount, resPerPage, filteredProductsCount } =
     useSelector((state) => state.product);
+
   const alert = useAlert();
   const dispatch = useDispatch();
 
