@@ -7,9 +7,10 @@ const cartSlice = createSlice({
     shippingInfo: {},
   },
   reducers: {
-    hydrate(action) {
+    hydrate(state, action) {
       // do not do state = action.payload it will not update the store
-      return action.payload;
+      state.cartItems = action.payload.cartItems;
+      state.saveShippingInfo = action.payload.shippingInfo;
     },
     addToCart(state, action) {
       const item = action.payload;
@@ -19,17 +20,13 @@ const cartSlice = createSlice({
       );
 
       if (isItemExist) {
-        state.cartItems = state.cartItems.map((i) =>
-          i.product === isItemExist.product ? item : i
-        );
+        state.cartItems = state.cartItems.map((i) => (i.product === isItemExist.product ? item : i));
       } else {
         state.cartItems = [...state.cartItems, item];
       }
     },
     removeItemCart(state, action) {
-      state.cartItems = state.cartItems.filter(
-        (i) => i.product !== action.payload
-      );
+      state.cartItems = state.cartItems.filter((i) => i.product !== action.payload);
     },
     saveShippingInfo(state, action) {
       state.shippingInfo = action.payload;

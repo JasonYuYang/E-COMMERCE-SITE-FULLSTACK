@@ -7,9 +7,14 @@ import Loader from '../layout/Loader';
 import MetaData from '../layout/MetaData';
 
 import { getProductDetails, newReview, clearErrors } from '../../store/actions/product-actions';
+import { addItemToCart } from '../../store/actions/cart-actions';
 import { reviewActions } from '../../store/slices/review-slice';
 
 const ProductDetails = ({ match }) => {
+  const [quantity, setQuantity] = useState(1);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
+
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -35,6 +40,29 @@ const ProductDetails = ({ match }) => {
     //   dispatch(reviewActions.newReviewReset());
     // }
   }, [dispatch, alert, error, match.params.id]);
+
+  const addToCart = () => {
+    dispatch(addItemToCart(match.params.id, quantity));
+    alert.success('Item Added to Cart');
+  };
+
+  const increaseQty = () => {
+    const count = document.querySelector('.count');
+
+    if (count.valueAsNumber >= productDetails.stock) return;
+
+    const qty = count.valueAsNumber + 1;
+    setQuantity(qty);
+  };
+
+  const decreaseQty = () => {
+    const count = document.querySelector('.count');
+
+    if (count.valueAsNumber <= 1) return;
+
+    const qty = count.valueAsNumber - 1;
+    setQuantity(qty);
+  };
 
   return (
     <Fragment>
@@ -62,10 +90,7 @@ const ProductDetails = ({ match }) => {
               <hr />
 
               <div className="rating-outer">
-                <div
-                  className="rating-inner"
-                  style={{ width: `${(productDetails.ratings / 5) * 100}%` }}
-                ></div>
+                <div className="rating-inner" style={{ width: `${(productDetails.ratings / 5) * 100}%` }}></div>
               </div>
               <span id="no_of_reviews">({productDetails.numOfReviews} Reviews)</span>
 
@@ -73,13 +98,23 @@ const ProductDetails = ({ match }) => {
 
               <p id="product_price">${productDetails.price}</p>
               <div className="stockCounter d-inline">
-                <span className="btn btn-danger minus">-</span>
+                <span className="btn btn-danger minus" onClick={decreaseQty}>
+                  -
+                </span>
 
-                <input type="number" className="form-control count d-inline" value="1" readOnly />
+                <input type="number" className="form-control count d-inline" value={quantity} readOnly />
 
-                <span className="btn btn-primary plus">+</span>
+                <span className="btn btn-primary plus" onClick={increaseQty}>
+                  +
+                </span>
               </div>
-              <button type="button" id="cart_btn" className="btn btn-primary d-inline ml-4">
+              <button
+                type="button"
+                id="cart_btn"
+                className="btn btn-primary d-inline ml-4"
+                disabled={productDetails.stock === 0}
+                onClick={addToCart}
+              >
                 Add to Cart
               </button>
 
@@ -87,10 +122,7 @@ const ProductDetails = ({ match }) => {
 
               <p>
                 Status:
-                <span
-                  id="stock_status"
-                  className={productDetails.stock > 0 ? 'greenColor' : 'redColor'}
-                >
+                <span id="stock_status" className={productDetails.stock > 0 ? 'greenColor' : 'redColor'}>
                   {productDetails.stock > 0 ? 'In Stock' : 'Out of Stock'}
                 </span>
               </p>
@@ -130,12 +162,7 @@ const ProductDetails = ({ match }) => {
                           <h5 className="modal-title" id="ratingModalLabel">
                             Submit Review
                           </h5>
-                          <button
-                            type="button"
-                            className="close"
-                            data-dismiss="modal"
-                            aria-label="Close"
-                          >
+                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
                         </div>
@@ -158,11 +185,7 @@ const ProductDetails = ({ match }) => {
                             </li>
                           </ul>
 
-                          <textarea
-                            name="review"
-                            id="review"
-                            className="form-control mt-3"
-                          ></textarea>
+                          <textarea name="review" id="review" className="form-control mt-3"></textarea>
 
                           <button
                             className="btn my-3 float-right review-btn px-4 text-white"

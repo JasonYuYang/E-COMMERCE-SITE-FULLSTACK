@@ -6,14 +6,6 @@ import cartSlice, { cartActions } from './slices/cart-slice';
 import orderSlice from './slices/order-slice';
 import reviewSlice from './slices/review-slice';
 
-const getCartItemsfromlocalStorage = () => {
-  const initialState = {
-    cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [],
-    shippingInfo: localStorage.getItem('shippingInfo') ? JSON.parse(localStorage.getItem('shippingInfo')) : {},
-  };
-  store.dispatch(cartActions.hydrate(initialState));
-};
-
 const store = configureStore({
   reducer: {
     product: productSlice.reducer,
@@ -24,6 +16,15 @@ const store = configureStore({
     review: reviewSlice.reducer,
   },
 });
+
+const getCartItemsfromlocalStorage = () => {
+  const initialState = {
+    cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [],
+    shippingInfo: localStorage.getItem('shippingInfo') ? JSON.parse(localStorage.getItem('shippingInfo')) : {},
+  };
+  store.dispatch(cartActions.hydrate(initialState));
+  console.log(initialState);
+};
 
 getCartItemsfromlocalStorage();
 
