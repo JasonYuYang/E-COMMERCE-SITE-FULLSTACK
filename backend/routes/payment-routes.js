@@ -4,15 +4,7 @@ const router = express.Router();
 const checkAuth = require('../middleware/checkAuth');
 const paymentController = require('../controllers/payment-controller');
 
-router.post(
-  '/payment/process',
-  checkAuth.isAuthenticatedUser,
-  paymentController.processPayment
-);
-router.get(
-  '/stripeapi',
-  checkAuth.isAuthenticatedUser,
-  paymentController.sendStripApi
-);
+router.post('/payment/process', checkAuth.isAuthenticatedUser, paymentController.processPayment);
+router.get('/stripeapi', checkAuth.isAuthenticatedUser, paymentController.sendStripeApi);
 
 module.exports = router;

@@ -18,7 +18,7 @@ const paymentRoutes = require('../backend/routes/payment-routes');
 const app = express();
 
 // Setting up config file
-dotenv.config({ path: 'config/config.env' });
+dotenv.config({ path: 'backend/config/config.env' });
 
 //Set security HTTP header
 app.use(helmet());

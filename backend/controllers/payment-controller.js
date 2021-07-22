@@ -18,11 +18,11 @@ const processPayment = catchAsyncErrors(async (req, res, next) => {
 });
 
 // Send stripe API Key   =>   /api/v1/stripeapi
-const sendStripApi = catchAsyncErrors(async (req, res, next) => {
+const sendStripeApi = catchAsyncErrors(async (req, res, next) => {
   res.status(200).json({
     stripeApiKey: process.env.STRIPE_API_KEY,
   });
 });
 
 exports.processPayment = processPayment;
-exports.sendStripApi = sendStripApi;
+exports.sendStripeApi = sendStripeApi;
