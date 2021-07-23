@@ -35,7 +35,7 @@ const orderSlice = createSlice({
     },
     orderDetailsSuccess(state, action) {
       state.loading = false;
-      state.orders = action.payload;
+      state.order = action.payload;
     },
     allOrdersSuccess(state, action) {
       state.loading = false;

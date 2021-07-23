@@ -16,7 +16,7 @@ const Shipping = ({ history }) => {
   const [city, setCity] = useState(shippingInfo.city);
   const [postalCode, setPostalCode] = useState(shippingInfo.postalCode);
   const [phoneNo, setPhoneNo] = useState(shippingInfo.phoneNo);
-  const [country, setCountry] = useState(shippingInfo.country);
+  const [country, setCountry] = useState(shippingInfo.country ? shippingInfo.country : 'Andorra');
 
   const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ const Shipping = ({ history }) => {
     e.preventDefault();
 
     dispatch(saveShippingInfo({ address, city, phoneNo, postalCode, country }));
-    history.push('order/confirm');
+    history.push('/confirm');
   };
   return (
     <Fragment>

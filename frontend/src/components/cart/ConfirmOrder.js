@@ -23,7 +23,7 @@ const ConfirmOrder = ({ history }) => {
       taxPrice,
       totalPrice,
     };
-
+    //TODO : check each field have been fullfilled
     sessionStorage.setItem('orderInfo', JSON.stringify(data));
     history.push('/payment');
   };
@@ -81,7 +81,7 @@ const ConfirmOrder = ({ history }) => {
             <h4>Order Summary</h4>
             <hr />
             <p>
-              Subtotal: <span className="order-summary-values">${itemsPrice}</span>
+              Subtotal: <span className="order-summary-values">${itemsPrice.toFixed(2)}</span>
             </p>
             <p>
               Shipping: <span className="order-summary-values">${shippingPrice}</span>

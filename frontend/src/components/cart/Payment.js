@@ -102,8 +102,6 @@ const Payment = ({ history }) => {
 
           dispatch(createOrder(order));
 
-          alert.success('Payment Success !!');
-
           history.push('/success');
         } else {
           alert.error('There is some issue while payment processing');

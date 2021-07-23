@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: {},
+  initialState: { user: {}, users: [] },
   reducers: {
     //UPDATE_PROFILE,UPDATE_PASSWORD,UPDATE_USER,DELETE_USER REQUEST
     updateUserDataRequest(state) {
@@ -13,7 +13,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.isUpdated = action.payload;
     },
-    // UPDATE_PROFILE,UPDATE_PASSWORD,UPDATE_USER FAIL
+    // UPDATE_PROFILE,UPDATE_PASSWORD,UPDATE_USER,DELETE_USER FAIL
     updateUserDataFail(state, action) {
       state.loading = false;
       state.error = action.payload;
@@ -47,7 +47,29 @@ const userSlice = createSlice({
     resetPasswordSuccess(state, action) {
       state.success = action.payload;
     },
-
+    //ADMIN ALL USERS REQUEST
+    allUsersRequest(state) {
+      state.loading = true;
+    },
+    allUsersSuccess(state, action) {
+      state.loading = false;
+      state.users = action.payload;
+    },
+    allUsersFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    userDetailsRequest(state, action) {
+      state.loading = true;
+    },
+    userDetailsSuccess(state, action) {
+      state.loading = false;
+      state.user = action.payload;
+    },
+    userDetailsFail(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
     clearErrors(state) {
       state.error = null;
     },

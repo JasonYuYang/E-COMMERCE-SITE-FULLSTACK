@@ -138,6 +138,63 @@ export const resetPassword = (token, passwords) => async (dispatch) => {
   }
 };
 
+// Get all users - ADMIN
+export const allUsers = () => async (dispatch) => {
+  try {
+    dispatch(userActions.allUsersRequest());
+
+    const { data } = await axios.get('/api/v1/admin/users');
+
+    dispatch(userActions.allUsersSuccess(data.users));
+  } catch (error) {
+    dispatch(userActions.allUsersFail(error.response.data.message));
+  }
+};
+
+// Update user - ADMIN
+export const updateUser = (id, userData) => async (dispatch) => {
+  try {
+    dispatch(userActions.updateUserDataRequest());
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const { data } = await axios.put(`/api/v1/admin/user/${id}`, userData, config);
+
+    dispatch(userActions.updateUserDataSuccess(data.success));
+  } catch (error) {
+    dispatch(userActions.updateUserDataFail(error.response.data.message));
+  }
+};
+
+// Get user details - ADMIN
+export const getUserDetails = (id) => async (dispatch) => {
+  try {
+    dispatch(userActions.userDetailsRequest());
+
+    const { data } = await axios.get(`/api/v1/admin/user/${id}`);
+
+    dispatch(userActions.userDetailsSuccess(data.user));
+  } catch (error) {
+    dispatch(userActions.userDetailsFail(error.response.data.message));
+  }
+};
+
+// Delete user - ADMIN
+export const deleteUser = (id) => async (dispatch) => {
+  try {
+    dispatch(userActions.updateUserDataRequest());
+
+    const { data } = await axios.delete(`/api/v1/admin/user/${id}`);
+
+    dispatch(userActions.deleteUserDataSuccess(data.success));
+  } catch (error) {
+    dispatch(userActions.updateUserDataFail(error.response.data.message));
+  }
+};
 // Clear Errors
 export const clearErrors = () => {
   return async (dispatch) => {
