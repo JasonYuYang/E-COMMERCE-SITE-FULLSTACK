@@ -172,9 +172,7 @@ const createProductReview = catchAsyncErrors(async (req, res, next) => {
 
   const product = await Product.findById(productId);
 
-  const isReviewed = product.reviews.find(
-    (r) => r.user.toString() === req.user.id.toString()
-  );
+  const isReviewed = product.reviews.find((r) => r.user.toString() === req.user.id.toString());
 
   if (isReviewed) {
     product.reviews.forEach((review) => {
@@ -188,8 +186,7 @@ const createProductReview = catchAsyncErrors(async (req, res, next) => {
     product.numOfReviews = product.reviews.length;
   }
 
-  product.ratings =
-    product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
+  product.ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
 
   await product.save({ validateBeforeSave: false });
 
@@ -212,16 +209,11 @@ const getProductReviews = catchAsyncErrors(async (req, res, next) => {
 const deleteReview = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.query.productId);
 
-  console.log(product);
-
-  const reviews = product.reviews.filter(
-    (review) => review._id.toString() !== req.query.id.toString()
-  );
+  const reviews = product.reviews.filter((review) => review._id.toString() !== req.query.id.toString());
 
   const numOfReviews = reviews.length;
 
-  const ratings =
-    product.reviews.reduce((acc, item) => item.rating + acc, 0) / reviews.length;
+  const ratings = product.reviews.reduce((acc, item) => item.rating + acc, 0) / reviews.length;
 
   await Product.findByIdAndUpdate(
     req.query.productId,

@@ -17,7 +17,7 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch(authActions.loadUserSuccess(data.user));
   } catch (error) {
-    dispatch(authActions.loadUserFail(error.response.data.message));
+    dispatch(authActions.loadUserFail('INVALID E-MAIL OR PASSWORD!'));
   }
 };
 // Logout user

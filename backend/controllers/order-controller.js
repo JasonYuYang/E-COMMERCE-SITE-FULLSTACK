@@ -6,15 +6,7 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 
 // Create a new order   =>  /api/v1/order/new
 const newOrder = catchAsyncErrors(async (req, res, next) => {
-  const {
-    orderItems,
-    shippingInfo,
-    itemsPrice,
-    taxPrice,
-    shippingPrice,
-    totalPrice,
-    paymentInfo,
-  } = req.body;
+  const { orderItems, shippingInfo, itemsPrice, taxPrice, shippingPrice, totalPrice, paymentInfo } = req.body;
 
   const order = await Order.create({
     orderItems,
@@ -36,10 +28,7 @@ const newOrder = catchAsyncErrors(async (req, res, next) => {
 
 // Get single order by id   =>   /api/v1/order/:id
 const getSingleOrder = catchAsyncErrors(async (req, res, next) => {
-  const order = await Order.findById(req.params.id).populate(
-    'user',
-    'name email'
-  );
+  const order = await Order.findById(req.params.id).populate('user', 'name email');
 
   if (!order) {
     return next(new ErrorHandler('No Order found with this ID', 404));
@@ -54,7 +43,6 @@ const getSingleOrder = catchAsyncErrors(async (req, res, next) => {
 // Get logged in user orders   =>   /api/v1/orders/me
 const myOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find({ user: req.user.id });
-
   res.status(200).json({
     success: true,
     orders,
@@ -64,13 +52,11 @@ const myOrders = catchAsyncErrors(async (req, res, next) => {
 // Get all orders - ADMIN  =>   /api/v1/admin/orders/
 const allOrders = catchAsyncErrors(async (req, res, next) => {
   const orders = await Order.find();
-
   let totalAmount = 0;
 
   orders.forEach((order) => {
     totalAmount += order.totalPrice;
   });
-
   res.status(200).json({
     success: true,
     totalAmount,

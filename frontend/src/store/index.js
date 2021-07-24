@@ -23,7 +23,6 @@ const getCartItemsfromlocalStorage = () => {
     shippingInfo: localStorage.getItem('shippingInfo') ? JSON.parse(localStorage.getItem('shippingInfo')) : {},
   };
   store.dispatch(cartActions.hydrate(initialState));
-  console.log(initialState);
 };
 
 getCartItemsfromlocalStorage();

@@ -128,14 +128,10 @@ export const deleteReview = (id, productId) => async (dispatch) => {
   try {
     dispatch(reviewActions.deleteReviewRequest());
 
-    const { data } = await axios.delete(
-      `/api/v1/reviews?id=${id}&productId=${productId}`
-    );
+    const { data } = await axios.delete(`/api/v1/reviews?id=${id}&productId=${productId}`);
 
     dispatch(reviewActions.deleteReviewSuccess(data.success));
   } catch (error) {
-    console.log(error.response);
-
     dispatch(reviewActions.deleteReviewFail(error.response.data.message));
   }
 };

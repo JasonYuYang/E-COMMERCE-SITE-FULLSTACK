@@ -14,8 +14,6 @@ const ListOrders = () => {
   const dispatch = useDispatch();
 
   const { loading, error, orders } = useSelector((state) => state.order);
-  console.log(orders);
-
   useEffect(() => {
     dispatch(myOrders());
 

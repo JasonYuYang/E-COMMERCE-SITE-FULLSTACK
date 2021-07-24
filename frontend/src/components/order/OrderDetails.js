@@ -14,7 +14,6 @@ const OrderDetails = ({ match }) => {
 
   const { loading, error, order = {} } = useSelector((state) => state.order);
   const { shippingInfo, orderItems, paymentInfo, user, totalPrice, orderStatus } = order;
-  console.log(order);
 
   useEffect(() => {
     dispatch(getOrderDetails(match.params.id));
