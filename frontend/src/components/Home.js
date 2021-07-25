@@ -5,7 +5,9 @@ import 'rc-slider/assets/index.css';
 
 import MetaData from './layout/MetaData';
 import Product from './product/Product';
+import ProductCategory from './product/ProductCategory';
 import Loader from './layout/Loader';
+import Footer from './layout/Footer';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';
@@ -35,8 +37,9 @@ const Home = ({ match }) => {
     'Home',
   ];
 
-  const { loading, products, error, productsCount, resPerPage, filteredProductsCount } =
-    useSelector((state) => state.product);
+  const { loading, products, error, productsCount, resPerPage, filteredProductsCount } = useSelector(
+    (state) => state.product
+  );
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -60,6 +63,7 @@ const Home = ({ match }) => {
     count = filteredProductsCount;
   }
 
+  let categoryQuery = category ? `in ${category}` : '';
   return (
     <Fragment>
       {loading ? (
@@ -67,8 +71,11 @@ const Home = ({ match }) => {
       ) : (
         <Fragment>
           <MetaData title={'Buy Best Products Online'} />
-
-          <h1 id="products_heading">Latest Products</h1>
+          {keyword ? (
+            <h1 id="products_heading">{`${count} results for "${keyword}" ${categoryQuery}`}</h1>
+          ) : (
+            <h1 id="products_heading">Latest Products</h1>
+          )}
 
           <section id="products" className="container mt-5">
             <div className="row">
@@ -151,31 +158,55 @@ const Home = ({ match }) => {
                       ))}
                     </div>
                   </div>
+                  {resPerPage <= count && (
+                    <div className="d-flex justify-content-center mt-5">
+                      <Pagination
+                        activePage={currentPage}
+                        itemsCountPerPage={resPerPage}
+                        totalItemsCount={productsCount}
+                        onChange={setCurrentPageNo}
+                        nextPageText={'Next'}
+                        prevPageText={'Prev'}
+                        firstPageText={'First'}
+                        lastPageText={'Last'}
+                        itemClass="page-item"
+                        linkClass="page-link"
+                      />
+                    </div>
+                  )}
                 </Fragment>
               ) : (
-                products.map((product) => (
-                  <Product key={product._id} product={product} col={3} />
-                ))
+                <Fragment>
+                  {products.map((product) => (
+                    <Product key={product._id} product={product} col={4} />
+                  ))}
+                  {resPerPage <= count && (
+                    <div className=" col-lg-12 d-flex justify-content-center mt-5 ">
+                      <Pagination
+                        activePage={currentPage}
+                        itemsCountPerPage={resPerPage}
+                        totalItemsCount={productsCount}
+                        onChange={setCurrentPageNo}
+                        nextPageText={'Next'}
+                        prevPageText={'Prev'}
+                        firstPageText={'First'}
+                        lastPageText={'Last'}
+                        itemClass="page-item"
+                        linkClass="page-link"
+                      />
+                    </div>
+                  )}
+                  <h1 className="col-lg-12 mb-5" id="products_heading">
+                    Recommend Categories
+                  </h1>
+                  {categories.map((category) => (
+                    <ProductCategory key={category} category={category} col={3} />
+                  ))}
+                  <Footer />
+                </Fragment>
               )}
             </div>
           </section>
-
-          {resPerPage <= count && (
-            <div className="d-flex justify-content-center mt-5">
-              <Pagination
-                activePage={currentPage}
-                itemsCountPerPage={resPerPage}
-                totalItemsCount={productsCount}
-                onChange={setCurrentPageNo}
-                nextPageText={'Next'}
-                prevPageText={'Prev'}
-                firstPageText={'First'}
-                lastPageText={'Last'}
-                itemClass="page-item"
-                linkClass="page-link"
-              />
-            </div>
-          )}
         </Fragment>
       )}
     </Fragment>

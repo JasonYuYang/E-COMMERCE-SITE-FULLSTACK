@@ -6,7 +6,7 @@ const cloudinary = require('cloudinary');
 
 // Get all products   =>   /api/v1/products?keyword=apple
 const getProducts = catchAsyncErrors(async (req, res, next) => {
-  const resPerPage = 4;
+  const resPerPage = req.query.category ? 8 : 3;
   const productsCount = await Product.countDocuments();
 
   const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter().sort();

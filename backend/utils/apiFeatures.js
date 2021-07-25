@@ -13,8 +13,18 @@ class APIFeatures {
           },
         }
       : {};
+    const category = this.queryStr.category
+      ? {
+          category: {
+            $regex: this.queryStr.category,
+            $options: 'i',
+          },
+        }
+      : {};
 
-    this.query = this.query.find({ ...keyword });
+    const query = { ...category, ...keyword };
+
+    this.query = this.query.find({ ...query });
     return this;
   }
 

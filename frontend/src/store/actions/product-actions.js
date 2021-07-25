@@ -12,7 +12,6 @@ export const getProducts = (keyword = '', currentPage = 1, price, category, rati
         link = `/api/v1/products?keyword=${keyword}&page=${currentPage}&price[lte]=${price[1]}&price[gte]=${price[0]}&category=${category}&ratings[gte]=${rating}`;
       }
       const { data } = await axios.get(link);
-
       dispatch(productActions.allProductsSuccess(data));
     } catch (error) {
       dispatch(productActions.allProductsFail(error.response.data.message));
