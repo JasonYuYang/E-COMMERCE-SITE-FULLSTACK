@@ -42,7 +42,7 @@ const Shipping = ({ history }) => {
                 type="text"
                 id="address_field"
                 className="form-control"
-                value={address}
+                value={address || ''}
                 onChange={(e) => setAddress(e.target.value)}
                 required
               />
@@ -54,7 +54,7 @@ const Shipping = ({ history }) => {
                 type="text"
                 id="city_field"
                 className="form-control"
-                value={city}
+                value={city || ''}
                 onChange={(e) => setCity(e.target.value)}
                 required
               />
@@ -66,7 +66,7 @@ const Shipping = ({ history }) => {
                 type="phone"
                 id="phone_field"
                 className="form-control"
-                value={phoneNo}
+                value={phoneNo || ''}
                 onChange={(e) => setPhoneNo(e.target.value)}
                 required
               />
@@ -78,7 +78,7 @@ const Shipping = ({ history }) => {
                 type="number"
                 id="postal_code_field"
                 className="form-control"
-                value={postalCode}
+                value={postalCode || ''}
                 onChange={(e) => setPostalCode(e.target.value)}
                 required
               />
@@ -89,7 +89,7 @@ const Shipping = ({ history }) => {
               <select
                 id="country_field"
                 className="form-control"
-                value={country}
+                value={country || ''}
                 onChange={(e) => setCountry(e.target.value)}
                 required
               >

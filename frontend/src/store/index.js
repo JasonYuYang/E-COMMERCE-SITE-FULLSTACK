@@ -22,6 +22,7 @@ const getCartItemsfromlocalStorage = () => {
     cartItems: localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [],
     shippingInfo: localStorage.getItem('shippingInfo') ? JSON.parse(localStorage.getItem('shippingInfo')) : {},
   };
+
   store.dispatch(cartActions.hydrate(initialState));
 };
 

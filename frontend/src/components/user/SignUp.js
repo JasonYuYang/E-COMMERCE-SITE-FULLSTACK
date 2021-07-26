@@ -1,4 +1,5 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
+import { Eye, EyeSlash } from 'react-bootstrap-icons';
 
 import MetaData from '../layout/MetaData';
 
@@ -12,6 +13,9 @@ const SignUp = ({ history }) => {
     email: '',
     password: '',
   });
+  const [showSpinner, setShowSpinner] = useState(false);
+  const [show, setShow] = useState(false);
+  const passwordInputRef = useRef();
 
   const { name, email, password } = user;
 
@@ -25,10 +29,12 @@ const SignUp = ({ history }) => {
 
   useEffect(() => {
     if (isAuthenticated) {
+      setShowSpinner(false);
       history.push('/');
     }
 
     if (error) {
+      setShowSpinner(false);
       alert.error(error);
       dispatch(clearErrors());
     }
@@ -42,7 +48,7 @@ const SignUp = ({ history }) => {
     formData.set('email', email);
     formData.set('password', password);
     formData.set('avatar', avatar);
-
+    setShowSpinner(true);
     dispatch(register(formData));
   };
 
@@ -61,6 +67,11 @@ const SignUp = ({ history }) => {
     } else {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
+  };
+
+  const showPassword = () => {
+    setShow(!show);
+    passwordInputRef.current.type = show ? 'password' : 'text';
   };
   return (
     <Fragment>
@@ -96,14 +107,26 @@ const SignUp = ({ history }) => {
 
             <div className="form-group">
               <label htmlFor="password_field">Password</label>
-              <input
-                type="password"
-                id="password_field"
-                className="form-control"
-                name="password"
-                value={password}
-                onChange={onChange}
-              />
+              <div className="eye">
+                <input
+                  type="password"
+                  id="password_field"
+                  className="form-control"
+                  name="password"
+                  value={password}
+                  ref={passwordInputRef}
+                  onChange={onChange}
+                />
+                {show ? (
+                  <i className="icon" onClick={showPassword}>
+                    <Eye />
+                  </i>
+                ) : (
+                  <i className="icon" onClick={showPassword}>
+                    <EyeSlash />
+                  </i>
+                )}
+              </div>
             </div>
 
             <div className="form-group">
@@ -130,7 +153,13 @@ const SignUp = ({ history }) => {
               </div>
             </div>
 
-            <button id="register_button" type="submit" className="btn btn-block py-3" disabled={loading ? true : false}>
+            <button
+              id="register_button"
+              type="submit"
+              className="d-flex justify-content-center btn btn-block py-3"
+              disabled={loading ? true : false}
+            >
+              {showSpinner ? <div className="mr-3" id="spinner"></div> : ''}
               REGISTER
             </button>
           </form>

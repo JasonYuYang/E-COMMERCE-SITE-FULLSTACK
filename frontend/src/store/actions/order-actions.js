@@ -4,7 +4,7 @@ import { orderActions } from '../slices/order-slice';
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch(orderActions.ordersRequest());
-
+    console.log(order);
     const config = {
       headers: {
         'Content-Type': 'application/json',
@@ -12,7 +12,6 @@ export const createOrder = (order) => async (dispatch, getState) => {
     };
 
     const { data } = await axios.post('/api/v1/order/new', order, config);
-
     dispatch(orderActions.createOrderSuccess(data));
   } catch (error) {
     dispatch(orderActions.ordersFail(error.response.data.message));

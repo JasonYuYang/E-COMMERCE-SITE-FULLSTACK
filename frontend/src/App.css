@@ -635,8 +635,47 @@ ul.CTAs a {
 .yellow {
   color: #fdcc0d;
 }
+.red {
+  color: red;
+}
 
 .review_user {
   font-size: 0.8rem;
   color: grey;
+}
+
+.eye {
+  position: relative;
+  display: flex;
+  margin-bottom: 14px;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 95%;
+  transform: translate(-50%, -50%);
+}
+.icon:hover {
+  cursor: pointer;
+}
+
+#spinner {
+  min-width: 1.5rem;
+  min-height: 1.5rem;
+  border: 3px solid rgba(255, 255, 255, 0.979);
+  border-right: 3px solid rgba(165, 165, 165, 0.966);
+  border-radius: 50%;
+  animation: spinner 1s linear infinite;
+}
+@keyframes spinner {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.preserve-space {
+  white-space: pre-wrap;
 }

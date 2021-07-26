@@ -159,11 +159,11 @@ const Home = ({ match }) => {
                     </div>
                   </div>
                   {resPerPage <= count && (
-                    <div className="d-flex justify-content-center mt-5">
+                    <div className="col-lg-12 d-flex justify-content-center mt-5">
                       <Pagination
                         activePage={currentPage}
                         itemsCountPerPage={resPerPage}
-                        totalItemsCount={productsCount}
+                        totalItemsCount={count}
                         onChange={setCurrentPageNo}
                         nextPageText={'Next'}
                         prevPageText={'Prev'}
@@ -185,7 +185,7 @@ const Home = ({ match }) => {
                       <Pagination
                         activePage={currentPage}
                         itemsCountPerPage={resPerPage}
-                        totalItemsCount={productsCount}
+                        totalItemsCount={count}
                         onChange={setCurrentPageNo}
                         nextPageText={'Next'}
                         prevPageText={'Prev'}

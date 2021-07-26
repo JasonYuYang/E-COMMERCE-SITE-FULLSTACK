@@ -1,8 +1,15 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import MetaData from '../layout/MetaData';
+import { useDispatch } from 'react-redux';
 
+import { cartActions } from '../../store/slices/cart-slice';
 const OrderSuccess = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(cartActions.resetCartItem());
+    localStorage.setItem('cartItems', []);
+  }, [dispatch]);
   return (
     <Fragment>
       <MetaData title={'Order Success'} />

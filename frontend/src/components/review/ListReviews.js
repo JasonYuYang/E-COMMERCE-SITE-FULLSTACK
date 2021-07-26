@@ -12,7 +12,7 @@ const ListReviews = ({ reviews }) => {
               <div className="rating-inner" style={{ width: `${(review.rating / 5) * 100}%` }}></div>
             </div>
             <p className="review_user">by {review.name}</p>
-            <p className="review_comment">{review.comment}</p>
+            <p className="review_comment preserve-space">{review.comment}</p>
 
             <hr />
           </div>

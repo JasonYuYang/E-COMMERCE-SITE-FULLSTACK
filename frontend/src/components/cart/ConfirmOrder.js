@@ -51,8 +51,8 @@ const ConfirmOrder = ({ history }) => {
           <hr />
           <h4 className="mt-4">Your Cart Items:</h4>
 
-          {cartItems.map((item) => (
-            <Fragment>
+          {cartItems.map((item, index) => (
+            <Fragment key={index}>
               <hr />
               <div className="cart-item my-1" key={item.product}>
                 <div className="row">

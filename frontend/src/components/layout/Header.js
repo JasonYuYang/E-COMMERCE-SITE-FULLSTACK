@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { Link, Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';
@@ -9,12 +9,30 @@ import '../../App.css';
 import Search from './Search';
 
 const Header = () => {
+  const [cartIsHighlighted, setCartIsHighlighted] = useState(false);
+
   const alert = useAlert();
   const dispatch = useDispatch();
 
   const { user, loading } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.cart);
 
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      return;
+    }
+    setCartIsHighlighted(true);
+
+    const timer = setTimeout(() => {
+      setCartIsHighlighted(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [cartItems.length]);
+
+  const cartClass = `btn ${cartIsHighlighted ? 'bump' : ''}`;
   const logoutHandler = () => {
     dispatch(logout());
     alert.success('Logged out successfully.');
@@ -36,8 +54,8 @@ const Header = () => {
         </div>
 
         <div className="col-12 col-md-3 mt-4 mt-md-0 text-center">
-          <Link to="/cart" style={{ textDecoration: 'none' }}>
-            <span id="cart" className="ml-3">
+          <Link to="/cart" className={cartClass} style={{ textDecoration: 'none' }}>
+            <span id="cart" className="ml-3 mr-1">
               Cart
             </span>
             <span className="ml-1" id="cart_count">

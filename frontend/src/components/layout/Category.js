@@ -75,7 +75,6 @@ const Category = ({ match }) => {
               <div className="col-6 col-md-3 mt-5 mb-5">
                 <div className="px-5">
                   <Range
-                    draggableTrack
                     marks={{
                       1: `$1`,
                       1000: `$1000`,
@@ -89,7 +88,7 @@ const Category = ({ match }) => {
                       visible: true,
                     }}
                     value={price}
-                    onAfterChange={(price) => setPrice(price)}
+                    onChange={(price) => setPrice(price)}
                   />
 
                   <hr className="my-5" />

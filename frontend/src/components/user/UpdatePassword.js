@@ -1,4 +1,5 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
+import { Eye, EyeSlash } from 'react-bootstrap-icons';
 
 import MetaData from '../layout/MetaData';
 
@@ -10,6 +11,11 @@ import { userActions } from '../../store/slices/user-slice';
 const UpdatePassword = ({ history }) => {
   const [oldPassword, setOldPassword] = useState('');
   const [password, setPassword] = useState('');
+  const [oldShow, setOldShow] = useState(false);
+  const [show, setShow] = useState(false);
+
+  const oldPasswordInputRef = useRef();
+  const passwordInputRef = useRef();
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -40,6 +46,15 @@ const UpdatePassword = ({ history }) => {
 
     dispatch(updatePassword(formData));
   };
+
+  const showPassword = () => {
+    setShow(!show);
+    passwordInputRef.current.type = show ? 'password' : 'text';
+  };
+  const showOldPassword = () => {
+    setOldShow(!oldShow);
+    oldPasswordInputRef.current.type = oldShow ? 'password' : 'text';
+  };
   return (
     <Fragment>
       <MetaData title={'Change Password'} />
@@ -50,24 +65,48 @@ const UpdatePassword = ({ history }) => {
             <h1 className="mt-2 mb-5">Update Password</h1>
             <div className="form-group">
               <label for="old_password_field">Old Password</label>
-              <input
-                type="password"
-                id="old_password_field"
-                className="form-control"
-                value={oldPassword}
-                onChange={(e) => setOldPassword(e.target.value)}
-              />
+              <div className="eye">
+                <input
+                  type="password"
+                  id="old_password_field"
+                  className="form-control"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  ref={oldPasswordInputRef}
+                />
+                {oldShow ? (
+                  <i className="icon" onClick={showOldPassword}>
+                    <Eye />
+                  </i>
+                ) : (
+                  <i className="icon" onClick={showOldPassword}>
+                    <EyeSlash />
+                  </i>
+                )}
+              </div>
             </div>
 
             <div className="form-group">
               <label for="new_password_field">New Password</label>
-              <input
-                type="password"
-                id="new_password_field"
-                className="form-control"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <div className="eye">
+                <input
+                  type="password"
+                  id="new_password_field"
+                  className="form-control"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  ref={passwordInputRef}
+                />
+                {show ? (
+                  <i className="icon" onClick={showPassword}>
+                    <Eye />
+                  </i>
+                ) : (
+                  <i className="icon" onClick={showPassword}>
+                    <EyeSlash />
+                  </i>
+                )}
+              </div>
             </div>
 
             <button type="submit" className="btn update-btn btn-block mt-4 mb-3" disabled={loading ? true : false}>

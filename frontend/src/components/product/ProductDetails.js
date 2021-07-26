@@ -136,7 +136,9 @@ const ProductDetails = ({ match }) => {
               <p id="product_id">Product # {productDetails._id}</p>
 
               <hr />
-
+              <span id="no_of_reviews m" className="mr-2 yellow">
+                {productDetails.ratings ? productDetails.ratings.toFixed(1) : '0'}
+              </span>
               <div className="rating-outer">
                 <div className="rating-inner" style={{ width: `${(productDetails.ratings / 5) * 100}%` }}></div>
               </div>
@@ -178,7 +180,7 @@ const ProductDetails = ({ match }) => {
               <hr />
 
               <h4 className="mt-2">Description:</h4>
-              <p>{productDetails.description}</p>
+              <p className="preserve-space">{productDetails.description}</p>
               <hr />
               <p id="product_seller mb-3">
                 Sold by: <strong>{productDetails.seller}</strong>
@@ -242,7 +244,7 @@ const ProductDetails = ({ match }) => {
                           <textarea
                             name="review"
                             id="review"
-                            className="form-control mt-3"
+                            className="form-control mt-3 preserve-space"
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
                           ></textarea>

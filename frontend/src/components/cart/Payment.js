@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 import MetaData from '../layout/MetaData';
 import CheckoutSteps from './CheckoutSteps';
@@ -6,6 +6,7 @@ import CheckoutSteps from './CheckoutSteps';
 import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOrder, clearErrors } from '../../store/actions/order-actions';
+import cartActions from '../../store/slices/cart-slice';
 
 import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
 
@@ -23,6 +24,8 @@ const options = {
 };
 
 const Payment = ({ history }) => {
+  const [show, setShow] = useState(false);
+
   const alert = useAlert();
   const stripe = useStripe();
   const elements = useElements();
@@ -59,6 +62,7 @@ const Payment = ({ history }) => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    setShow(true);
     document.querySelector('#pay_btn').disabled = true;
 
     let res;
@@ -89,6 +93,7 @@ const Payment = ({ history }) => {
 
       if (result.error) {
         alert.error(result.error.message);
+        setShow(false);
         document.querySelector('#pay_btn').disabled = false;
       } else {
         // The payment is processed or not
@@ -99,15 +104,15 @@ const Payment = ({ history }) => {
           };
 
           dispatch(createOrder(order));
-
           history.push('/success');
         } else {
-          alert.error('There is some issue while payment processing');
+          alert.error('There were some issue while payment processing');
         }
       }
     } catch (error) {
+      setShow(false);
       document.querySelector('#pay_btn').disabled = false;
-      alert.error(error.response.data.message);
+      alert.error('There were some issue while payment processing');
     }
   };
 
@@ -136,7 +141,8 @@ const Payment = ({ history }) => {
               <CardCvcElement type="text" id="card_cvc_field" className="form-control" options={options} />
             </div>
 
-            <button id="pay_btn" type="submit" className="btn btn-block py-3">
+            <button id="pay_btn" type="submit" className=" d-flex justify-content-center btn btn-block py-3">
+              {show ? <div className="mr-3" id="spinner"></div> : ''}
               Pay {` - ${orderInfo && orderInfo.totalPrice}`}
             </button>
           </form>

@@ -18,6 +18,7 @@ const NewProduct = ({ history }) => {
   const [seller, setSeller] = useState('');
   const [images, setImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
+  const [show, setShow] = useState(false);
 
   const categories = [
     'Electronics',
@@ -46,6 +47,7 @@ const NewProduct = ({ history }) => {
     }
 
     if (success) {
+      setShow(false);
       history.push('/admin/products');
       alert.success('Product created successfully');
       dispatch(productActions.newProductReset());
@@ -54,7 +56,7 @@ const NewProduct = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
+    setShow(true);
     const formData = new FormData();
     formData.set('name', name);
     formData.set('price', price);
@@ -129,7 +131,7 @@ const NewProduct = ({ history }) => {
                 <div className="form-group">
                   <label htmlFor="description_field">Description</label>
                   <textarea
-                    className="form-control"
+                    className="form-control preserve-space"
                     id="description_field"
                     rows="8"
                     value={description}
@@ -142,7 +144,7 @@ const NewProduct = ({ history }) => {
                   <select
                     className="form-control"
                     id="category_field"
-                    value={category}
+                    value={category ? category : 'Eletronics'}
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     {categories.map((category) => (
@@ -199,9 +201,10 @@ const NewProduct = ({ history }) => {
                 <button
                   id="login_button"
                   type="submit"
-                  className="btn btn-block py-3"
+                  className="d-flex justify-content-center btn btn-block py-3"
                   disabled={loading ? true : false}
                 >
+                  {show ? <div className="mr-3" id="spinner"></div> : ''}
                   CREATE
                 </button>
               </form>

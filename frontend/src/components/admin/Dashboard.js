@@ -119,6 +119,12 @@ const Dashboard = () => {
                         <br /> <b>{outOfStock}</b>
                       </div>
                     </div>
+                    <Link className="card-footer text-white clearfix small z-1" to="/admin/OutOfStock">
+                      <span className="float-left">View Details</span>
+                      <span className="float-right">
+                        <i className="fa fa-angle-right"></i>
+                      </span>
+                    </Link>
                   </div>
                 </div>
               </div>

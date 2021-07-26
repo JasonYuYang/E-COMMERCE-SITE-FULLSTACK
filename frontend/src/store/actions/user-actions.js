@@ -45,6 +45,9 @@ export const register = (userData) => async (dispatch) => {
 
     dispatch(authActions.loadUserSuccess(data.user));
   } catch (error) {
+    if (!error.response.data.message) {
+      dispatch(authActions.loadUserFail('Registration Fail !! Please check your input data !!'));
+    }
     dispatch(authActions.loadUserFail(error.response.data.message));
   }
 };
