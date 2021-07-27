@@ -28,7 +28,7 @@ const userSignUp = catchAsyncErrors(async (req, res, next) => {
     },
   });
 
-  sendToken(user, 201, res);
+  sendToken(user, 201, res, req);
 });
 
 // Login User  =>  /api/v1/login
@@ -55,7 +55,7 @@ const userLogin = catchAsyncErrors(async (req, res, next) => {
   }
 
   //Get user token
-  sendToken(user, 200, res);
+  sendToken(user, 200, res, req);
 });
 
 // Logout user   =>   /api/v1/logout
@@ -130,7 +130,7 @@ const resetPassword = catchAsyncErrors(async (req, res, next) => {
 
   await user.save();
 
-  sendToken(user, 200, res);
+  sendToken(user, 200, res, req);
 });
 
 // Get currently logged in user details   =>   /api/v1/me
@@ -155,7 +155,7 @@ const updatePassword = catchAsyncErrors(async (req, res, next) => {
   user.password = req.body.password;
   await user.save();
 
-  sendToken(user, 200, res);
+  sendToken(user, 200, res, req);
 });
 
 // Update user profile   =>   /api/v1/me/update

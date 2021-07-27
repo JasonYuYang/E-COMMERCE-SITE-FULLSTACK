@@ -17,7 +17,7 @@ const orderRoutes = require('../backend/routes/order-routes');
 const paymentRoutes = require('../backend/routes/payment-routes');
 
 const app = express();
-
+app.enable('trust proxy');
 // Setting up config file
 dotenv.config({ path: 'backend/config/config.env' });
 
@@ -43,8 +43,6 @@ app.use(mongoSanitize());
 
 // Data sanitization against XSS
 app.use(xss());
-
-app.enable('trust proxy');
 
 app.use(compression());
 
