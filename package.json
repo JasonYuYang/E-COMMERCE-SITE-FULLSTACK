@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "debug": "ndb server.js",
-    "start": "SET backend/node server.js",
+    "start": "SET node backend/server.js",
     "dev": "SET NODE_ENV=DEVELOPMENT& nodemon backend/server",
     "prod": "SET NODE_ENV=PRODUCTION& nodemon backend/server",
     "seeder": "node utils/seeder.js",
