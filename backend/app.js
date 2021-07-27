@@ -6,6 +6,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 const fileUpload = require('express-fileupload');
 const dotenv = require('dotenv');
 
@@ -44,6 +45,8 @@ app.use(mongoSanitize());
 app.use(xss());
 
 app.enable('trust proxy');
+
+app.use(compression());
 
 app.use('/api/v1', authRoutes);
 app.use('/api/v1', paymentRoutes);
