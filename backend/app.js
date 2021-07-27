@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -20,7 +21,7 @@ const paymentRoutes = require('../backend/routes/payment-routes');
 const app = express();
 app.enable('trust proxy');
 // Setting up config file
-dotenv.config({ path: 'backend/config/config.env' });
+if (process.env.NODE_ENV !== 'PRODUCTION') dotenv.config({ path: 'backend/config/config.env' });
 
 // Implement CORS
 app.use(cors());
@@ -63,6 +64,13 @@ app.use('/api/v1', paymentRoutes);
 app.use('/api/v1', productRoutes);
 app.use('/api/v1', orderRoutes);
 
+if (process.env.NODE_ENV === 'PRODUCTION') {
+  app.use(express.static(path.join(__dirname, '../frontend/build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../frontend/build/index.html'));
+  });
+}
 // Middleware to handle errors
 app.use(errorMiddleware);
 
