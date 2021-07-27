@@ -4,6 +4,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const cors = require('cors');
 
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
@@ -20,6 +21,17 @@ const app = express();
 app.enable('trust proxy');
 // Setting up config file
 dotenv.config({ path: 'backend/config/config.env' });
+
+// Implement CORS
+app.use(cors());
+// Access-Control-Allow-Origin *
+// api.natours.com, front-end natours.com
+// app.use(cors({
+//   origin: 'https://www.natours.com'
+// }))
+
+app.options('*', cors());
+// app.options('/api/v1/tours/:id', cors());
 
 //Set security HTTP header
 app.use(helmet({ contentSecurityPolicy: false }));
