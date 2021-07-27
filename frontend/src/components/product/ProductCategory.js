@@ -10,7 +10,7 @@ const ProductCategory = ({ category, col }) => {
         <Link to={`category/${category}`}>
           <img
             className="card-img-top mx-auto"
-            src={`/public/images/category/${categoryQuery}.png`}
+            src={`frontend/public/images/category/${categoryQuery}.png`}
             alt={categoryQuery}
           />
         </Link>
