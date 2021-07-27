@@ -13,10 +13,10 @@ const fileUpload = require('express-fileupload');
 const dotenv = require('dotenv');
 
 const errorMiddleware = require('./middleware/error');
-const productRoutes = require('../backend/routes/product-routes');
-const authRoutes = require('../backend/routes/auth-routes');
-const orderRoutes = require('../backend/routes/order-routes');
-const paymentRoutes = require('../backend/routes/payment-routes');
+const productRoutes = require('./routes/product-routes');
+const authRoutes = require('./routes/auth-routes');
+const orderRoutes = require('./routes/order-routes');
+const paymentRoutes = require('./routes/payment-routes');
 
 const app = express();
 app.enable('trust proxy');

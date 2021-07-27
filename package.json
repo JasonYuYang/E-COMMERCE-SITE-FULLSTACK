@@ -8,7 +8,7 @@
     "start": "node backend/server.js",
     "dev": "SET NODE_ENV=DEVELOPMENT& nodemon backend/server",
     "prod": "SET NODE_ENV=PRODUCTION& nodemon backend/server",
-    "seeder": "node utils/seeder.js",
+    "seeder": "node backend/utils/seeder.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false && npm install --prefix frontend && npm run build --prefix frontend"
   },
   "author": "Yu-Yang",
@@ -20,6 +20,7 @@
     "cloudinary": "^1.26.2",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
     "dotenv": "^8.6.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",

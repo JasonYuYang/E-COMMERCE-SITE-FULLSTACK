@@ -1,12 +1,11 @@
-const User = require('../models/user');
+const crypto = require('crypto');
+const cloudinary = require('cloudinary');
 
+const User = require('../models/user');
 const sendEmail = require('../utils/sendEmail');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const sendToken = require('../utils/jwtToken');
-
-const crypto = require('crypto');
-const cloudinary = require('cloudinary');
 
 // Register a user   => /api/v1/signup
 const userSignUp = catchAsyncErrors(async (req, res, next) => {
@@ -182,7 +181,7 @@ const updateUserProfile = catchAsyncErrors(async (req, res, next) => {
       url: result.secure_url,
     };
   }
-  user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
     useFindAndModify: false,
