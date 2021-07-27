@@ -13,6 +13,7 @@ const UpdatePassword = ({ history }) => {
   const [password, setPassword] = useState('');
   const [oldShow, setOldShow] = useState(false);
   const [show, setShow] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const oldPasswordInputRef = useRef();
   const passwordInputRef = useRef();
@@ -24,11 +25,13 @@ const UpdatePassword = ({ history }) => {
 
   useEffect(() => {
     if (error) {
+      setShowSpinner(false);
       alert.error(error);
       dispatch(clearErrors());
     }
 
     if (isUpdated) {
+      setShowSpinner(false);
       alert.success('Password updated successfully');
 
       history.push('/me');
@@ -109,7 +112,12 @@ const UpdatePassword = ({ history }) => {
               </div>
             </div>
 
-            <button type="submit" className="btn update-btn btn-block mt-4 mb-3" disabled={loading ? true : false}>
+            <button
+              type="submit"
+              className="d-flex justify-content-center btn update-btn btn-block mt-4 mb-3"
+              disabled={loading ? true : false}
+            >
+              {showSpinner ? <div className="mr-3" id="spinner"></div> : ''}
               Update Password
             </button>
           </form>

@@ -6,7 +6,6 @@ import CheckoutSteps from './CheckoutSteps';
 import { useAlert } from 'react-alert';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOrder, clearErrors } from '../../store/actions/order-actions';
-import cartActions from '../../store/slices/cart-slice';
 
 import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js';
 

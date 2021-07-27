@@ -4,7 +4,6 @@ import { orderActions } from '../slices/order-slice';
 export const createOrder = (order) => async (dispatch, getState) => {
   try {
     dispatch(orderActions.ordersRequest());
-    console.log(order);
     const config = {
       headers: {
         'Content-Type': 'application/json',

@@ -8,6 +8,7 @@ import { forgotPassword, clearErrors } from '../../store/actions/user-actions';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -16,18 +17,20 @@ const ForgotPassword = () => {
 
   useEffect(() => {
     if (error) {
+      setShowSpinner(false);
       alert.error(error);
       dispatch(clearErrors());
     }
 
     if (message) {
+      setShowSpinner(false);
       alert.success(message);
     }
   }, [dispatch, alert, error, message]);
 
   const submitHandler = (e) => {
     e.preventDefault();
-
+    setShowSpinner(true);
     const formData = new FormData();
     formData.set('email', email);
 
@@ -55,9 +58,10 @@ const ForgotPassword = () => {
             <button
               id="forgot_password_button"
               type="submit"
-              className="btn btn-block py-3"
+              className="d-flex justify-content-center btn btn-block py-3"
               disabled={loading ? true : false}
             >
+              {showSpinner ? <div className="mr-3" id="spinner"></div> : ''}
               Send Email
             </button>
           </form>

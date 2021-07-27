@@ -60,6 +60,7 @@ export const loadUser = () => async (dispatch) => {
     const { data } = await axios.get('/api/v1/me');
 
     dispatch(authActions.loadUserSuccess(data.user));
+    localStorage.setItem('Login', true);
   } catch (error) {
     dispatch(authActions.loadUserFail(error.response.data.message));
   }

@@ -21,7 +21,7 @@ const app = express();
 dotenv.config({ path: 'backend/config/config.env' });
 
 //Set security HTTP header
-app.use(helmet());
+app.use(helmet({ contentSecurityPolicy: false }));
 
 //Limit request from same IP
 const limiter = rateLimit({
@@ -42,6 +42,8 @@ app.use(mongoSanitize());
 
 // Data sanitization against XSS
 app.use(xss());
+
+app.enable('trust proxy');
 
 app.use('/api/v1', authRoutes);
 app.use('/api/v1', paymentRoutes);

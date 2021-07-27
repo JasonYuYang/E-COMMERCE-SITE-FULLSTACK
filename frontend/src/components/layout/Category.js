@@ -6,7 +6,6 @@ import 'rc-slider/assets/index.css';
 import MetaData from './MetaData';
 import Product from '../product/Product';
 import Loader from './Loader';
-import Footer from './Footer';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';
@@ -166,7 +165,6 @@ const Category = ({ match }) => {
               />
             </div>
           )}
-          <Footer />
         </Fragment>
       )}
     </Fragment>

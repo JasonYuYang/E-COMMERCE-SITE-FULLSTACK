@@ -7,7 +7,6 @@ import MetaData from './layout/MetaData';
 import Product from './product/Product';
 import ProductCategory from './product/ProductCategory';
 import Loader from './layout/Loader';
-import Footer from './layout/Footer';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';
@@ -37,9 +36,7 @@ const Home = ({ match }) => {
     'Home',
   ];
 
-  const { loading, products, error, productsCount, resPerPage, filteredProductsCount } = useSelector(
-    (state) => state.product
-  );
+  const { loading, products, error, resPerPage, filteredProductsCount } = useSelector((state) => state.product);
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -58,7 +55,7 @@ const Home = ({ match }) => {
     setCurrentPage(pageNumber);
   };
 
-  let count = productsCount;
+  let count = 8;
   if (keyword) {
     count = filteredProductsCount;
   }
@@ -202,7 +199,7 @@ const Home = ({ match }) => {
                   {categories.map((category) => (
                     <ProductCategory key={category} category={category} col={3} />
                   ))}
-                  <Footer />
+                  {/* <Footer /> */}
                 </Fragment>
               )}
             </div>

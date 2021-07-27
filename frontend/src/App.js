@@ -43,7 +43,7 @@ import ProductReviews from './components/admin/ProductReviews';
 
 import ProtectedRoute from './components/route/ProtectedRoute';
 import { useSelector } from 'react-redux';
-import { loadUser } from './store/actions/user-actions';
+import { loadUser, clearErrors } from './store/actions/user-actions';
 import store from './store/index';
 import axios from 'axios';
 
@@ -53,15 +53,19 @@ import { loadStripe } from '@stripe/stripe-js';
 
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState('');
+
   useEffect(() => {
-    store.dispatch(loadUser());
+    async function getUserAtStart() {
+      await store.dispatch(loadUser());
+      store.dispatch(clearErrors());
+    }
 
     async function getStripApiKey() {
       const { data } = await axios.get('/api/v1/stripeapi');
 
       setStripeApiKey(data.stripeApiKey);
     }
-
+    getUserAtStart();
     getStripApiKey();
   }, []);
 

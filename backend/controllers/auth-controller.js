@@ -73,7 +73,9 @@ const userLogout = catchAsyncErrors(async (req, res, next) => {
 
 // Forgot Password   =>  /api/v1/password/forgot
 const forgotPassword = catchAsyncErrors(async (req, res, next) => {
-  const user = await User.findOne({ eamil: req.body.email });
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+
   if (!user) {
     return next(new ErrorHandler('User not found with this email', 404));
   }
