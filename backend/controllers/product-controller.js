@@ -1,18 +1,18 @@
+const cloudinary = require('cloudinary');
 const Product = require('../models/product');
 const APIFeatures = require('../utils/apiFeatures');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
-const cloudinary = require('cloudinary');
 
 // Get all products   =>   /api/v1/products?keyword=apple
 const getProducts = catchAsyncErrors(async (req, res, next) => {
-  const resPerPage = req.query.category ? 8 : 3;
+  const resPerPage = req.query.category ? 6 : 3;
   const productsCount = await Product.countDocuments();
 
   const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter().sort();
 
   let products = await apiFeatures.query;
-  let filteredProductsCount = products.length;
+  const filteredProductsCount = products.length;
 
   apiFeatures.pagination(resPerPage);
   products = await apiFeatures.query;
@@ -23,9 +23,7 @@ const getProducts = catchAsyncErrors(async (req, res, next) => {
     productsCount,
     filteredProductsCount,
     resPerPage,
-    products: products.map((product) => {
-      return product.toObject({ getters: true });
-    }),
+    products: products.map((product) => product.toObject({ getters: true })),
     message: 'Success get all products in the database',
   });
 });
@@ -65,6 +63,10 @@ const newProduct = catchAsyncErrors(async (req, res, next) => {
   }
 
   let imagesLinks = [];
+
+  if (!imagesLinks) {
+    return next(new ErrorHandler('Please Add Product Images', 404));
+  }
 
   for (let i = 0; i < images.length; i++) {
     const result = await cloudinary.v2.uploader.upload(images[i], {

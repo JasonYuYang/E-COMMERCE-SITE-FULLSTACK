@@ -9,11 +9,20 @@ const sendToken = require('../utils/jwtToken');
 
 // Register a user   => /api/v1/signup
 const userSignUp = catchAsyncErrors(async (req, res, next) => {
-  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-    folder: 'avatars',
-    width: 150,
-    crop: 'scale',
-  });
+  let result;
+  if (!req.body.avatar) {
+    result = await cloudinary.v2.uploader.upload('../backend/config/default_avatar.jpg', {
+      folder: 'avatars',
+      width: 150,
+      crop: 'scale',
+    });
+  } else {
+    result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: 'avatars',
+      width: 150,
+      crop: 'scale',
+    });
+  }
 
   const { name, email, password } = req.body;
 

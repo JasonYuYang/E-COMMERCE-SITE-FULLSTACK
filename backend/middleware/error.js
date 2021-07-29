@@ -1,3 +1,4 @@
+const fs = require('fs');
 const ErrorHandler = require('../utils/errorHandler');
 
 module.exports = (err, req, res, next) => {
@@ -18,6 +19,12 @@ module.exports = (err, req, res, next) => {
     let error = { ...err };
 
     error.message = err.message;
+
+    if (req.file) {
+      fs.unlink(req.file.path, (err) => {
+        console.log(err);
+      });
+    }
 
     // Wrong Mongoose Object ID Error
     if (err.name === 'CastError') {

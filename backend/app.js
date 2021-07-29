@@ -59,6 +59,8 @@ app.use(xss());
 
 app.use(compression());
 
+app.use(express.static(path.join('config', 'default')));
+
 app.use('/api/v1', authRoutes);
 app.use('/api/v1', paymentRoutes);
 app.use('/api/v1', productRoutes);
