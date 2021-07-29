@@ -71,19 +71,29 @@ const UpdateProduct = ({ match, history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.set('name', name);
-    formData.set('price', price);
-    formData.set('description', description);
-    formData.set('category', category);
-    formData.set('stock', stock);
-    formData.set('seller', seller);
+    // const formData = new FormData();
+    // formData.set('name', name);
+    // formData.set('price', price);
+    // formData.set('description', description);
+    // formData.set('category', category);
+    // formData.set('stock', stock);
+    // formData.set('seller', seller);
 
-    images.forEach((image) => {
-      formData.append('images', image);
-    });
+    // images.forEach((image) => {
+    //   formData.append('images', image);
+    // });
 
-    dispatch(updateProduct(productDetails._id, formData));
+    const updateProductData = {
+      name,
+      price,
+      description,
+      category,
+      stock,
+      seller,
+      images,
+    };
+
+    dispatch(updateProduct(productDetails._id, updateProductData));
   };
 
   const onChange = (e) => {

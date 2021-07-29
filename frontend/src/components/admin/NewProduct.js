@@ -13,7 +13,7 @@ const NewProduct = ({ history }) => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState('');
+  const [category, setCategory] = useState('Electronics');
   const [stock, setStock] = useState(0);
   const [seller, setSeller] = useState('');
   const [images, setImages] = useState([]);
@@ -42,6 +42,7 @@ const NewProduct = ({ history }) => {
 
   useEffect(() => {
     if (error) {
+      setShow(false);
       alert.error(error);
       dispatch(clearErrors());
     }
@@ -57,19 +58,27 @@ const NewProduct = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     setShow(true);
-    const formData = new FormData();
-    formData.set('name', name);
-    formData.set('price', price);
-    formData.set('description', description);
-    formData.set('category', category);
-    formData.set('stock', stock);
-    formData.set('seller', seller);
+    // const formData = new FormData();
+    // formData.set('name', name);
+    // formData.set('price', price);
+    // formData.set('description', description);
+    // formData.set('category', category);
+    // formData.set('stock', stock);
+    // formData.set('seller', seller);
 
-    images.forEach((image) => {
-      formData.append('images', image);
-    });
-
-    dispatch(newProduct(formData));
+    // images.forEach((image) => {
+    //   formData.append('images', image);
+    // });
+    const newProductData = {
+      name,
+      price,
+      description,
+      category,
+      stock,
+      seller,
+      images,
+    };
+    dispatch(newProduct(newProductData));
   };
 
   const onChange = (e) => {
@@ -144,7 +153,7 @@ const NewProduct = ({ history }) => {
                   <select
                     className="form-control"
                     id="category_field"
-                    value={category ? category : 'Eletronics'}
+                    value={category}
                     onChange={(e) => setCategory(e.target.value)}
                   >
                     {categories.map((category) => (

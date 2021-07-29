@@ -11,7 +11,7 @@ const UpdateProfile = ({ history }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [avatar, setAvatar] = useState('');
-  const [avatarPreview, setAvatarPreview] = useState('/images/default_avatar.jpg');
+  const [avatarPreview, setAvatarPreview] = useState('');
 
   const alert = useAlert();
   const dispatch = useDispatch();
@@ -44,12 +44,17 @@ const UpdateProfile = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    const formData = new FormData();
-    formData.set('name', name);
-    formData.set('email', email);
-    formData.set('avatar', avatar);
+    // const formData = new FormData();
+    // formData.set('name', name);
+    // formData.set('email', email);
+    // formData.set('avatar', avatar);
+    const updateProfileData = {
+      name,
+      email,
+      avatar,
+    };
 
-    dispatch(updateProfile(formData));
+    dispatch(updateProfile(updateProfileData));
   };
 
   const onChange = (e) => {

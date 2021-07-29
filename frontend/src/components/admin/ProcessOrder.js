@@ -37,10 +37,10 @@ const ProcessOrder = ({ match }) => {
   }, [dispatch, alert, error, isUpdated, orderId]);
 
   const updateOrderHandler = (id) => {
-    const formData = new FormData();
-    formData.set('status', status);
-
-    dispatch(updateOrder(id, formData));
+    // const formData = new FormData();
+    // formData.set('status', status);
+    const updateOrderData = { status };
+    dispatch(updateOrder(id, updateOrderData));
   };
 
   const shippingDetails =

@@ -14,7 +14,8 @@ import { getProducts } from '../../store/actions/product-actions';
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
 
-const Category = ({ match }) => {
+const Category = ({ match, history }) => {
+  const categoryHeader = match.params.category.replace(/%2F/g, '/');
   const [currentPage, setCurrentPage] = useState(1);
   const [price, setPrice] = useState([1, 1000]);
   const [category, setCategory] = useState(match.params.category);
@@ -55,6 +56,12 @@ const Category = ({ match }) => {
     setCurrentPage(pageNumber);
   };
 
+  const clickCategoryHandler = (category) => {
+    const categoryURLencoded = category.replace(/\//g, '%2F');
+    history.push(`/category/${categoryURLencoded}`);
+    setCategory(category);
+  };
+
   let count = productsCount;
   if (category) {
     count = filteredProductsCount;
@@ -67,7 +74,7 @@ const Category = ({ match }) => {
         <Fragment>
           <MetaData title={'Buy Best Products Online'} />
 
-          <h1 id="products_heading">{`${category}`}</h1>
+          <h1 id="products_heading">{`${categoryHeader}`}</h1>
 
           <section id="products" className="container mt-5">
             <div className="row">
@@ -103,7 +110,9 @@ const Category = ({ match }) => {
                             listStyleType: 'none',
                           }}
                           key={category}
-                          onClick={() => setCategory(category)}
+                          onClick={() => {
+                            clickCategoryHandler(category);
+                          }}
                         >
                           {category}
                         </li>
@@ -154,7 +163,7 @@ const Category = ({ match }) => {
               <Pagination
                 activePage={currentPage}
                 itemsCountPerPage={resPerPage}
-                totalItemsCount={productsCount}
+                totalItemsCount={count}
                 onChange={setCurrentPageNo}
                 nextPageText={'Next'}
                 prevPageText={'Prev'}

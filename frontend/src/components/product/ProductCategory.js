@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const ProductCategory = ({ category, col }) => {
   const categoryQuery = category.replace(/\//g, '&');
-
+  const categoryURLencoded = category.replace(/\//g, '%2F');
   return (
     <div className={`col-sm-12 col-md-6 col-lg-${col} my-3`}>
       <div className="card p-3 rounded">
@@ -12,9 +12,9 @@ const ProductCategory = ({ category, col }) => {
         </Link>
         <div className="card-body d-flex flex-column">
           <h5 className="card-title card-text">
-            <Link to={`category/${category}`}>{category}</Link>
+            <Link to={`category/${categoryURLencoded}`}>{category}</Link>
           </h5>
-          <Link to={`category/${category}`} id="view_btn" className="btn btn-block">
+          <Link to={`category/${categoryURLencoded}`} id="view_btn" className="btn btn-block">
             See More
           </Link>
         </div>

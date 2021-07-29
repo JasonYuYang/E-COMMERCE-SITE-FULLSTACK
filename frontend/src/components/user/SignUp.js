@@ -42,14 +42,19 @@ const SignUp = ({ history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.set('name', name);
-    formData.set('email', email);
-    formData.set('password', password);
-    formData.set('avatar', avatar);
+    // const formData = new FormData();
+    // formData.set('name', name);
+    // formData.set('email', email);
+    // formData.set('password', password);
+    // formData.set('avatar', avatar);
+    const signUpData = {
+      name,
+      email,
+      password,
+      avatar,
+    };
     setShowSpinner(true);
-    dispatch(register(formData));
+    dispatch(register(signUpData));
   };
 
   const onChange = (e) => {

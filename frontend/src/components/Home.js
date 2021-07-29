@@ -55,7 +55,7 @@ const Home = ({ match }) => {
     setCurrentPage(pageNumber);
   };
 
-  let count = 8;
+  let count = 9;
   if (keyword) {
     count = filteredProductsCount;
   }
@@ -199,7 +199,6 @@ const Home = ({ match }) => {
                   {categories.map((category) => (
                     <ProductCategory key={category} category={category} col={3} />
                   ))}
-                  {/* <Footer /> */}
                 </Fragment>
               )}
             </div>
