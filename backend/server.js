@@ -25,7 +25,7 @@ const app = require('./app');
 
 connectDatabase();
 
-const server = app.listen(process.env.PORT, () => {
+const server = app.listen(process.env.PORT || 5000, () => {
   console.log(`Server Start on PORT: ${process.env.PORT} in ${process.env.NODE_ENV} mode.`);
 });
 
