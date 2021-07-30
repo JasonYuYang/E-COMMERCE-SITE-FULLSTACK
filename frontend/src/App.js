@@ -56,14 +56,20 @@ function App() {
 
   useEffect(() => {
     async function getUserAtStart() {
-      await store.dispatch(loadUser());
-      store.dispatch(clearErrors());
+      try {
+        await store.dispatch(loadUser());
+      } catch (err) {
+        store.dispatch(clearErrors());
+      }
     }
 
     async function getStripApiKey() {
-      const { data } = await axios.get('/api/v1/stripeapi');
-
-      setStripeApiKey(data.stripeApiKey);
+      try {
+        const { data } = await axios.get('/api/v1/stripeapi');
+        setStripeApiKey(data.stripeApiKey);
+      } catch (err) {
+        store.dispatch(clearErrors());
+      }
     }
     getUserAtStart();
     getStripApiKey();
