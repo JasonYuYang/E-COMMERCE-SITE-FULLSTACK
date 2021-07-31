@@ -5,7 +5,7 @@ import 'rc-slider/assets/index.css';
 
 import MetaData from './layout/MetaData';
 import Product from './product/Product';
-import ProductCategory from './product/ProductCategory';
+import Category from './layout/Category';
 import Loader from './layout/Loader';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -197,7 +197,7 @@ const Home = ({ match }) => {
                     Recommend Categories
                   </h1>
                   {categories.map((category) => (
-                    <ProductCategory key={category} category={category} col={3} />
+                    <Category key={category} category={category} col={3} />
                   ))}
                 </Fragment>
               )}

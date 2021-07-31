@@ -4,7 +4,7 @@ import './App.css';
 
 import Footer from './components/layout/Footer';
 import Header from './components/layout/Header';
-import Category from './components/layout/Category';
+import ProductCategory from './components/product/ProductCategory';
 
 import Home from './components/Home';
 import ProductDetails from './components/product/ProductDetails';
@@ -83,7 +83,7 @@ function App() {
         <Header />
         <div className="container container-fluid">
           <Route path="/" component={Home} exact />
-          <Route path="/category/:category" component={Category} exact />
+          <Route path="/category/:category" component={ProductCategory} exact />
           <Route path="/search/:keyword" component={Home} />
 
           <Route path="/product/:id" component={ProductDetails} exact />
