@@ -27,11 +27,11 @@ const productSchema = new Schema({
     {
       public_id: {
         type: String,
-        required: true,
+        required: [true, 'Please add some images'],
       },
       url: {
         type: String,
-        required: true,
+        required: [true, 'Please add some images'],
       },
     },
   ],

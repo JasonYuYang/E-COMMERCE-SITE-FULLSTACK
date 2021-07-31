@@ -17,6 +17,7 @@ const UpdateProduct = ({ match, history }) => {
   const [stock, setStock] = useState(0);
   const [seller, setSeller] = useState('');
   const [images, setImages] = useState([]);
+  const [show, setShow] = useState(false);
 
   const [oldImages, setOldImages] = useState([]);
   const [imagesPreview, setImagesPreview] = useState([]);
@@ -57,11 +58,13 @@ const UpdateProduct = ({ match, history }) => {
     }
 
     if (error) {
+      setShow(false);
       alert.error(error);
       dispatch(clearErrors());
     }
 
     if (isUpdated) {
+      setShow(false);
       history.push('/admin/products');
       alert.success('Product updated successfully');
       dispatch(productActions.updateProductReset());
@@ -70,7 +73,7 @@ const UpdateProduct = ({ match, history }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
+    setShow(true);
     // const formData = new FormData();
     // formData.set('name', name);
     // formData.set('price', price);
@@ -231,9 +234,10 @@ const UpdateProduct = ({ match, history }) => {
                 <button
                   id="login_button"
                   type="submit"
-                  className="btn btn-block py-3"
+                  className="d-flex justify-content-center btn btn-block py-3"
                   disabled={loading ? true : false}
                 >
+                  {show ? <div className="mr-3" id="spinner"></div> : ''}
                   UPDATE
                 </button>
               </form>

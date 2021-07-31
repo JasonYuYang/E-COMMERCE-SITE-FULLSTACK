@@ -7,7 +7,7 @@ const ProductCategory = ({ category, col }) => {
   return (
     <div className={`col-sm-12 col-md-6 col-lg-${col} my-3`}>
       <div className="card p-3 rounded">
-        <Link to={`category/${category}`}>
+        <Link to={`category/${categoryURLencoded}`}>
           <img className="card-img-top mx-auto" src={`/images/Category/${categoryQuery}.png`} alt={categoryQuery} />
         </Link>
         <div className="card-body d-flex flex-column">
