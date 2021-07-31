@@ -21,7 +21,7 @@ const paymentRoutes = require('./routes/payment-routes');
 const app = express();
 app.enable('trust proxy');
 // Setting up config file
-if (process.env.NODE_ENV !== 'PRODUCTION') dotenv.config({ path: 'backend/config/config.env' });
+if (process.env.NODE_ENV !== 'PRODUCTION') dotenv.config({ path: path.join(__dirname, './config/config.env') });
 
 // Implement CORS
 app.use(cors());

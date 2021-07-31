@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const cloudinary = require('cloudinary');
+const path = require('path');
 
 const User = require('../models/user');
 const sendEmail = require('../utils/sendEmail');
@@ -11,7 +12,7 @@ const sendToken = require('../utils/jwtToken');
 const userSignUp = catchAsyncErrors(async (req, res, next) => {
   let result;
   if (!req.body.avatar) {
-    result = await cloudinary.v2.uploader.upload('../backend/config/default_avatar.jpg', {
+    result = await cloudinary.v2.uploader.upload(path.join(__dirname, '../config/default_avatar.jpg'), {
       folder: 'avatars',
       width: 150,
       crop: 'scale',
