@@ -74,17 +74,6 @@ const UpdateProduct = ({ match, history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     setShow(true);
-    // const formData = new FormData();
-    // formData.set('name', name);
-    // formData.set('price', price);
-    // formData.set('description', description);
-    // formData.set('category', category);
-    // formData.set('stock', stock);
-    // formData.set('seller', seller);
-
-    // images.forEach((image) => {
-    //   formData.append('images', image);
-    // });
 
     const updateProductData = {
       name,
@@ -222,13 +211,14 @@ const UpdateProduct = ({ match, history }) => {
                   </div>
 
                   {oldImages &&
-                    oldImages.map((img) => (
-                      <img key={img} src={img.url} alt={img.url} className="mt-3 mr-2" width="55" height="52" />
+                    oldImages.map((img, index) => (
+                      <img key={index} src={img.url} alt={img.url} className="mt-3 mr-2" width="55" height="52" />
                     ))}
 
-                  {imagesPreview.map((img) => (
-                    <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
-                  ))}
+                  {imagesPreview &&
+                    imagesPreview.map((img) => (
+                      <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
+                    ))}
                 </div>
 
                 <button
