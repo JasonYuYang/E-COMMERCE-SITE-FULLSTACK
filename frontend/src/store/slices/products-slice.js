@@ -38,6 +38,7 @@ const productSlice = createSlice({
       state.newProduct = action.payload.product;
     },
     newProductFail(state, action) {
+      state.loading = false;
       state.error = action.payload;
     },
     newProductReset(state) {
@@ -65,6 +66,7 @@ const productSlice = createSlice({
       state.isDeleted = action.payload;
     },
     updateDeleteProductFail(state, action) {
+      state.loading = false;
       state.error = action.payload;
     },
     updateProductReset(state) {
