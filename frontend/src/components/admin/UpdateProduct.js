@@ -40,12 +40,16 @@ const UpdateProduct = ({ match, history }) => {
   const alert = useAlert();
   const dispatch = useDispatch();
 
-  const { loading, error, productDetails, isUpdated } = useSelector((state) => state.product);
+  const { loading, error, productDetails, isUpdated, sendProductDetailsRequest } = useSelector(
+    (state) => state.product
+  );
 
   const productId = match.params.id;
+  // console.log(productDetails && productDetails._id !== productId ? true : false);
 
   useEffect(() => {
-    if (productDetails && productDetails._id !== productId) {
+    if (productDetails && (sendProductDetailsRequest || productDetails.id !== productId)) {
+      dispatch(productActions.resetProductDetailsRequest());
       dispatch(getProductDetails(productId));
     } else {
       setName(productDetails.name);
@@ -65,27 +69,31 @@ const UpdateProduct = ({ match, history }) => {
 
     if (isUpdated) {
       setShow(false);
+      dispatch(productActions.sendProductDetailsRequest());
       history.push('/admin/products');
+
       alert.success('Product updated successfully');
       dispatch(productActions.updateProductReset());
     }
-  }, [dispatch, alert, error, isUpdated, history, productDetails, productId]);
+  }, [dispatch, alert, error, isUpdated, history, productDetails, productId, sendProductDetailsRequest]);
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     setShow(true);
 
-    const updateProductData = {
-      name,
-      price,
-      description,
-      category,
-      stock,
-      seller,
-      images,
-    };
+    const formData = new FormData();
+    formData.set('name', name);
+    formData.set('price', price);
+    formData.set('description', description);
+    formData.set('category', category);
+    formData.set('stock', stock);
+    formData.set('seller', seller);
 
-    dispatch(updateProduct(productDetails._id, updateProductData));
+    images.forEach((image) => {
+      formData.append('images', image);
+    });
+
+    dispatch(updateProduct(productDetails._id, formData));
   };
 
   const onChange = (e) => {
@@ -215,10 +223,9 @@ const UpdateProduct = ({ match, history }) => {
                       <img key={index} src={img.url} alt={img.url} className="mt-3 mr-2" width="55" height="52" />
                     ))}
 
-                  {imagesPreview &&
-                    imagesPreview.map((img) => (
-                      <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
-                    ))}
+                  {imagesPreview.map((img) => (
+                    <img src={img} key={img} alt="Images Preview" className="mt-3 mr-2" width="55" height="52" />
+                  ))}
                 </div>
 
                 <button

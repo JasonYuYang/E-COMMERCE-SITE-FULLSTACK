@@ -34,7 +34,7 @@ const getAdminProducts = catchAsyncErrors(async (req, res, next) => {
 
   res.status(200).json({
     success: true,
-    products,
+    products: products.map((product) => product.toObject({ getters: true })),
   });
 });
 
@@ -110,7 +110,6 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
 
   if (Array.isArray(images) && images.length) {
     let imagesLinks = [];
-
     //  Deleting images associated with the product
     await Promise.all(
       product.images.map(async (image) => {
@@ -130,10 +129,8 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
         });
       })
     );
-
+    console.log(imagesLinks.length);
     req.body.images = imagesLinks;
-  } else {
-    delete req.body.images;
   }
 
   product = await Product.findByIdAndUpdate(productId, req.body, {

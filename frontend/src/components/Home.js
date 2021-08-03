@@ -1,7 +1,5 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState, useRef } from 'react';
 import Pagination from 'react-js-pagination';
-import Slider from 'rc-slider';
-import 'rc-slider/assets/index.css';
 
 import MetaData from './layout/MetaData';
 import Product from './product/Product';
@@ -12,14 +10,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useAlert } from 'react-alert';
 import { getProducts } from '../store/actions/product-actions';
 
-const { createSliderWithTooltip } = Slider;
-const Range = createSliderWithTooltip(Slider.Range);
-
 const Home = ({ match }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [price, setPrice] = useState([1, 1000]);
+  const [price, setPrice] = useState([]);
   const [category, setCategory] = useState('');
   const [rating, setRating] = useState(0);
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
+
+  const maxPriceInputRef = useRef();
+  const minPriceInputRef = useRef();
 
   const categories = [
     'Electronics',
@@ -55,6 +55,20 @@ const Home = ({ match }) => {
     setCurrentPage(pageNumber);
   };
 
+  const priceSubmit = (e) => {
+    e.preventDefault();
+    setPrice([minPrice, maxPrice]);
+  };
+
+  const minPriceOnChange = (e) => {
+    setMinPrice(e.target.value);
+    minPriceInputRef.current.value = minPrice;
+  };
+  const maxPriceOnChange = (e) => {
+    setMaxPrice(e.target.value);
+    maxPriceInputRef.current.value = maxPrice;
+  };
+
   let count = 9;
   if (keyword) {
     count = filteredProductsCount;
@@ -80,24 +94,42 @@ const Home = ({ match }) => {
                 <Fragment>
                   <div className="col-6 col-md-3 mt-5 mb-5">
                     <div className="px-5">
-                      <Range
-                        marks={{
-                          1: `$1`,
-                          1000: `$1000`,
-                        }}
-                        min={1}
-                        max={1000}
-                        defaultValue={[1, 1000]}
-                        tipFormatter={(value) => `$${value}`}
-                        tipProps={{
-                          placement: 'top',
-                          visible: true,
-                        }}
-                        value={price}
-                        onChange={(price) => setPrice(price)}
-                      />
+                      <h4 className="mb-4">Price</h4>
 
-                      <hr className="my-5" />
+                      <div className="d-flex justify-content-center my-0 mt-1 position-relative">
+                        <div className="input-group col-6 mx-0  p-0 mr-1 ">
+                          <span className="price-tag">$</span>
+                          <input
+                            className="price col-12"
+                            type="text"
+                            placeholder="Min"
+                            value={minPrice}
+                            onChange={minPriceOnChange}
+                            ref={minPriceInputRef}
+                          />
+                          <label className="price-label my-0">Min</label>
+                        </div>
+                        <div className="input-group col-6 mx-0 px-0">
+                          <span className="price-tag">$</span>
+                          <input
+                            className="price col-12"
+                            type="text"
+                            placeholder="Max"
+                            value={maxPrice}
+                            onChange={maxPriceOnChange}
+                            ref={maxPriceInputRef}
+                          />
+                          <label className="price-label my-0">Max</label>
+                        </div>
+                      </div>
+                      <button
+                        type="submit"
+                        className="price-submit btn  btn-sm my-0 px-3 ml-4 center-block"
+                        onClick={priceSubmit}
+                      >
+                        SUBMIT
+                      </button>
+                      <hr className="my-0" />
 
                       <div className="mt-5">
                         <h4 className="mb-3">Categories</h4>

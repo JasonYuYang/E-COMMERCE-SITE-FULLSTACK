@@ -73,7 +73,12 @@ const productSlice = createSlice({
     deleteProductReset(state) {
       state.isDeleted = false;
     },
-
+    sendProductDetailsRequest(state) {
+      state.sendProductDetailsRequest = true;
+    },
+    resetProductDetailsRequest(state) {
+      state.sendProductDetailsRequest = false;
+    },
     clearErrors(state) {
       state.error = null;
     },

@@ -679,3 +679,35 @@ ul.CTAs a {
 .preserve-space {
   white-space: pre-wrap;
 }
+
+.price-label {
+  font-size: 1rem;
+  font-weight: 700;
+  transform: translate(1rem, -3.25rem) scale(0.8);
+  transition: all 0.15s ease;
+}
+
+input.price:placeholder-shown + label.price-label {
+  opacity: 0;
+  visibility: hidden;
+  transform: translate(1rem, -2rem);
+}
+
+.input-group {
+  position: relative;
+}
+
+.price-tag {
+  position: absolute;
+  left: 7%;
+  top: 7%;
+  z-index: 5;
+}
+.price-submit {
+  transform: translate(0.5rem, -1rem);
+  color: #fff;
+  background-color: #fa9c23;
+  padding: 0.5rem 1.8rem;
+  font-family: calibri;
+  position: absoulte;
+}
