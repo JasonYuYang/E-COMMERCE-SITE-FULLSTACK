@@ -1,5 +1,4 @@
 const nodemailer = require('nodemailer');
-const nodemailerSendgrid = require('nodemailer-sendgrid');
 const pug = require('pug');
 
 module.exports = class sendEmail {
@@ -7,20 +6,24 @@ module.exports = class sendEmail {
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
     this.url = url;
-    this.from = `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`;
+    this.from = `${process.env.SMTP_FROM_NAME} <${
+      process.env.NODE_ENV === 'PRODUCTION' ? process.env.SENDINBLUE_FROM_EMAIL : process.env.SMTP_FROM_EMAIL
+    }>`;
   }
 
   newTransport() {
     if (process.env.NODE_ENV === 'PRODUCTION') {
-      // Sendgrid
-      return nodemailer.createTransport(
-        nodemailerSendgrid({
-          apiKey: process.env.SENDGRID_API_KEY,
-          tls: {
-            rejectUnauthorized: false,
-          },
-        })
-      );
+      // Sendinblue
+      return nodemailer.createTransport({
+        service: 'SendinBlue',
+        auth: {
+          user: process.env.SENDINBLUE_USERNAME,
+          pass: process.env.SENDINBLUE_PASSWORD,
+        },
+        tls: {
+          rejectUnauthorized: false,
+        },
+      });
     }
 
     return nodemailer.createTransport({
@@ -29,6 +32,9 @@ module.exports = class sendEmail {
       auth: {
         user: process.env.SMTP_USERNAME,
         pass: process.env.SMTP_PASSWORD,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
   }

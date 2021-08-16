@@ -44,6 +44,9 @@ const userSlice = createSlice({
       state.loading = false;
       state.message = action.payload;
     },
+    resetForgotPasswordMessage(state) {
+      state.message = '';
+    },
     resetPasswordSuccess(state, action) {
       state.success = action.payload;
     },

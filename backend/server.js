@@ -12,7 +12,8 @@ process.on('uncaughtException', (err) => {
 });
 
 // Setting up config file
-if (process.env.NODE_ENV !== 'PRODUCTION') dotenv.config({ path: path.join(__dirname, './config/config.env') });
+// if (process.env.NODE_ENV !== 'PRODUCTION')
+dotenv.config({ path: path.join(__dirname, './config/config.env') });
 
 // Setting up cloudinary configuration
 cloudinary.config({
