@@ -70,11 +70,11 @@ const Category = ({ match, history }) => {
 
   const minPriceOnChange = (e) => {
     setMinPrice(e.target.value);
-    minPriceInputRef.current.value = minPrice;
+    // minPriceInputRef.current.value = minPrice;
   };
   const maxPriceOnChange = (e) => {
     setMaxPrice(e.target.value);
-    maxPriceInputRef.current.value = maxPrice;
+    // maxPriceInputRef.current.value = maxPrice;
   };
 
   let count = productsCount;

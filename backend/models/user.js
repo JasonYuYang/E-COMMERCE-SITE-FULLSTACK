@@ -53,7 +53,7 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// rest timestamp of resetPasswordAt  before saving to database for comparing with token
+// reset timestamp of resetPasswordAt  before saving to database for comparing with token
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password') || this.isNew) {
     return next();
