@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState, useRef } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import Pagination from 'react-js-pagination';
 
 import MetaData from '../layout/MetaData';
@@ -17,9 +17,6 @@ const Category = ({ match, history }) => {
   const [price, setPrice] = useState([]);
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-
-  const maxPriceInputRef = useRef();
-  const minPriceInputRef = useRef();
 
   const keyword = '';
 
@@ -70,11 +67,9 @@ const Category = ({ match, history }) => {
 
   const minPriceOnChange = (e) => {
     setMinPrice(e.target.value);
-    // minPriceInputRef.current.value = minPrice;
   };
   const maxPriceOnChange = (e) => {
     setMaxPrice(e.target.value);
-    // maxPriceInputRef.current.value = maxPrice;
   };
 
   let count = productsCount;
@@ -107,7 +102,6 @@ const Category = ({ match, history }) => {
                         placeholder="Min"
                         value={minPrice}
                         onChange={minPriceOnChange}
-                        ref={minPriceInputRef}
                       />
                       <label className="price-label my-0">Min</label>
                     </div>
@@ -119,7 +113,6 @@ const Category = ({ match, history }) => {
                         placeholder="Max"
                         value={maxPrice}
                         onChange={maxPriceOnChange}
-                        ref={maxPriceInputRef}
                       />
                       <label className="price-label my-0">Max</label>
                     </div>
