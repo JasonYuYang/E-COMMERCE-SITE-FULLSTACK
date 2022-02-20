@@ -15,7 +15,7 @@
 
 ### App features
 
-- Admin email: **yuyangtest@test.com** ,password:**yuyangtest**.
+- Admin email:  **yuyangtest@test.com** ,password:  **yuyangtest**.
 - Test credit card number:**4242 4242 4242 4242** ,CVC number: **Any 3 digits**
 - Login as Admin to get access to **admin dashboard** ,admin can do **CRUD actions** to **products,users and orders**.
   ![](./finished/admin_dashboard.png)
