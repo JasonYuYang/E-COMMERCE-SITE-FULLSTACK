@@ -107,7 +107,6 @@ const forgotPassword = catchAsyncErrors(async (req, res, next) => {
     user.resetPasswordExpire = undefined;
     console.log(error);
     await user.save({ validateBeforeSave: false });
-
     return next(new ErrorHandler(error.message, 500));
   }
 });

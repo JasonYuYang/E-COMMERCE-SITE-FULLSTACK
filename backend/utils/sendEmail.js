@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 const pug = require('pug');
 
-module.exports = class sendEmail {
+module.exports = class SendEmail {
   constructor(user, url) {
     this.to = user.email;
     this.firstName = user.name.split(' ')[0];
