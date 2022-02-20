@@ -3,7 +3,7 @@ const cloudinary = require('cloudinary');
 const path = require('path');
 
 const User = require('../models/user');
-const sendEmail = require('../utils/sendEmail');
+const SendEmail = require('../utils/sendEmail');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 const sendToken = require('../utils/jwtToken');
@@ -97,7 +97,7 @@ const forgotPassword = catchAsyncErrors(async (req, res, next) => {
   const resetUrl = `${req.protocol}://${req.get('host')}/password/reset/${resetToken}`;
 
   try {
-    await new sendEmail(user, resetUrl).sendPasswordReset();
+    await new SendEmail(user, resetUrl).sendPasswordReset();
     res.status(200).json({
       success: true,
       message: `Email sent to: ${user.email}`,

@@ -42,6 +42,7 @@ class APIFeatures {
     this.query = this.query.find(JSON.parse(queryDB));
     return this;
   }
+
   sort() {
     if (this.queryStr.sort) {
       //for multiple sorting condition

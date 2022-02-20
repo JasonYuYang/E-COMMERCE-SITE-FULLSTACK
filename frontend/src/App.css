@@ -30,6 +30,12 @@ nav {
   background-color: #232f3e;
   padding: 1rem 1rem;
 }
+/* @media only screen and (max-width: 770px) {
+  .navbar {
+    display: flex;
+    align-items: center;
+  }
+} */
 
 #search_btn {
   background-color: #febd69;
@@ -37,7 +43,7 @@ nav {
 
 .input-group {
   width: 90%;
-  margin-right: 35%;
+  /* margin-right: 35%; */
 }
 
 #search_field {
@@ -110,9 +116,9 @@ nav {
   text-decoration: none;
 }
 
-.card-body {
+/* .card-body {
   padding-left: 0;
-}
+} */
 
 .card-text {
   font-size: 1.4rem;

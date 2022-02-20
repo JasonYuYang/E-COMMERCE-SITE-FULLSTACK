@@ -41,8 +41,8 @@ const Header = () => {
   return (
     <Fragment>
       <nav className="navbar row">
-        <div className="col-12 col-md-3">
-          <div className="navbar-brand">
+        <div className="col-12 col-md-3 d-flex justify-content-center">
+          <div className="navbar-brand ml-4">
             <Link to="/">
               <img src="/images/shopit_logo.png" alt="ShopIT Logo" />
             </Link>

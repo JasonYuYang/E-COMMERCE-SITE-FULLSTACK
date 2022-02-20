@@ -21,8 +21,8 @@ module.exports = (err, req, res, next) => {
     error.message = err.message;
 
     if (req.file) {
-      fs.unlink(req.file.path, (err) => {
-        console.log(err);
+      fs.unlink(req.file.path, (errors) => {
+        console.log(errors);
       });
     }
 

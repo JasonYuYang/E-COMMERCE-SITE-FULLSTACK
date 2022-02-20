@@ -67,7 +67,13 @@ const allOrders = catchAsyncErrors(async (req, res, next) => {
 // Update / Process order - ADMIN  =>   /api/v1/admin/order/:id
 const updateOrder = catchAsyncErrors(async (req, res, next) => {
   const order = await Order.findById(req.params.id);
+  async function updateStock(id, quantity) {
+    const product = await Product.findById(id);
 
+    product.stock -= quantity;
+
+    await product.save({ validateBeforeSave: false });
+  }
   if (order.orderStatus === 'Delivered') {
     return next(new ErrorHandler('You have already delivered this order', 400));
   }
@@ -76,7 +82,8 @@ const updateOrder = catchAsyncErrors(async (req, res, next) => {
     await updateStock(item.product, item.quantity);
   });
 
-  (order.orderStatus = req.body.status), (order.deliveredAt = Date.now());
+  order.orderStatus = req.body.status;
+  order.deliveredAt = Date.now();
 
   await order.save();
 
@@ -84,14 +91,6 @@ const updateOrder = catchAsyncErrors(async (req, res, next) => {
     success: true,
   });
 });
-
-async function updateStock(id, quantity) {
-  const product = await Product.findById(id);
-
-  product.stock = product.stock - quantity;
-
-  await product.save({ validateBeforeSave: false });
-}
 
 // Delete order   =>   /api/v1/admin/order/:id
 const deleteOrder = catchAsyncErrors(async (req, res, next) => {

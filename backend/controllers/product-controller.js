@@ -6,7 +6,7 @@ const catchAsyncErrors = require('../middleware/catchAsyncErrors');
 
 // Get all products   =>   /api/v1/products?keyword=apple
 const getProducts = catchAsyncErrors(async (req, res, next) => {
-  const resPerPage = req.query.category ? 6 : 3;
+  const resPerPage = req.query.category ? 6 : req.query.keyword ? 6 : 3;
   const productsCount = await Product.countDocuments();
 
   const apiFeatures = new APIFeatures(Product.find(), req.query).search().filter().sort();
@@ -59,10 +59,10 @@ const newProduct = catchAsyncErrors(async (req, res, next) => {
   if (typeof req.body.images === 'string') {
     images.push(req.body.images);
   } else {
-    images = req.body.images;
+    [images] = req.body;
   }
 
-  let imagesLinks = [];
+  const imagesLinks = [];
 
   if (!imagesLinks) {
     return next(new ErrorHandler('Please Add Product Images', 404));
@@ -105,11 +105,11 @@ const updateProduct = catchAsyncErrors(async (req, res, next) => {
   if (typeof req.body.images === 'string') {
     images.push(req.body.images);
   } else {
-    images = req.body.images;
+    [images] = req.body;
   }
 
   if (Array.isArray(images) && images.length) {
-    let imagesLinks = [];
+    const imagesLinks = [];
     //  Deleting images associated with the product
     await Promise.all(
       product.images.map(async (image) => {
@@ -185,10 +185,10 @@ const createProductReview = catchAsyncErrors(async (req, res, next) => {
   const isReviewed = product.reviews.find((r) => r.user.toString() === req.user.id.toString());
 
   if (isReviewed) {
-    product.reviews.forEach((review) => {
-      if (review.user.toString() === req.user.id.toString()) {
-        review.comment = comment;
-        review.rating = rating;
+    product.reviews.forEach((productReview) => {
+      if (productReview.user.toString() === req.user.id.toString()) {
+        productReview.comment = comment;
+        productReview.rating = rating;
       }
     });
   } else {

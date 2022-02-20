@@ -12,7 +12,7 @@ const Search = ({ history }) => {
     }
   };
   return (
-    <form onSubmit={searchHandler}>
+    <form onSubmit={searchHandler} className="d-flex justify-content-center">
       <div className="input-group">
         <input
           type="text"
