@@ -95,7 +95,7 @@ const Login = ({ history, location }) => {
                   LOGIN
                 </button>
 
-                <Link to="/signup" className="float-right mt-3">
+                <Link to="/signup" className="float-right mt-4">
                   New User?
                 </Link>
               </form>
