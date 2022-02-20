@@ -40,7 +40,7 @@
 ### Built with
 
 - Semantic HTML5 markup
-- [Boostrap](https://getbootstrap.com/)- For styles
+- [Bootstrap](https://getbootstrap.com/)- For styles
 - [cloudinary](https://cloudinary.com/)-Media cloud platform
 - [React](https://reactjs.org/) - JS library
 - [Redux toolkit](https://redux-toolkit.js.org/)
