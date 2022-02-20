@@ -19,7 +19,7 @@
 - Test credit card number:**4242 4242 4242 4242** ,CVC number: **Any 3 digits**
 - Login as Admin to get access to **admin dashboard** ,admin can do **CRUD actions** to **products,users and orders**.
   ![](./finished/admin_dashboard.png)
-- **Send password reset token email** when forgot password.
+- **Send password reset token email** when forgot password.(Can only work in dev mode using mailtrap)
 
 - User can use **category,price,keyword** to search products .
   ![](./finished/product_search.png)
