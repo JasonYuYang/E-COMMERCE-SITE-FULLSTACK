@@ -51,7 +51,7 @@ module.exports = (err, req, res, next) => {
       error = new ErrorHandler(message, 400);
     }
 
-    // Handling Expired JWT error
+    // Handling Expired JWT errorgit branch -vv
     if (err.name === 'TokenExpiredError') {
       const message = 'JSON Web Token is expired. Try Again!!!';
       error = new ErrorHandler(message, 400);
